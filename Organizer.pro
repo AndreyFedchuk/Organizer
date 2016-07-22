@@ -14,10 +14,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    tgtablemodel.cpp
+    tgtablemodel.cpp \
+    tgprioritydelegate.cpp
 
 HEADERS  += mainwindow.h \
     tgtablemodel.h \
-    target.h
+    target.h \
+    tgprioritydelegate.h
 
 FORMS    += mainwindow.ui

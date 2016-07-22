@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "tgtablemodel.h"
+#include "tgprioritydelegate.h"
 
 namespace Ui {
 class MainWindow;
