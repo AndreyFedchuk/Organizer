@@ -5,9 +5,10 @@
 #include <QVariant>
 #include <QModelIndex>
 
-#include <QSize>
-#include <QFont>
-#include <QColor>
+#include <QFont>      //  ???
+#include <QColor>     //  ???
+
+#include "target.h"
 
 
 class tgTableModel : public QAbstractTableModel
@@ -24,17 +25,7 @@ public:
     Qt::ItemFlags flags(const QModelIndex &index) const;
 
 private:
-    enum class Column{Name, Description, Priority, Deadline, Ready};
-    struct target{
-        QString name;
-        QString description;
-        int priority;
-        QString deadline;
-        bool ready;
-    };
-
     QList<target> * m_ptargetList;
-
     QVariant getData(int row, int column) const;
 };
 

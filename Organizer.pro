@@ -17,6 +17,7 @@ SOURCES += main.cpp\
     tgtablemodel.cpp
 
 HEADERS  += mainwindow.h \
-    tgtablemodel.h
+    tgtablemodel.h \
+    target.h
 
 FORMS    += mainwindow.ui
