@@ -13,8 +13,10 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    tgtablemodel.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    tgtablemodel.h
 
 FORMS    += mainwindow.ui
