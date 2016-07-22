@@ -1,12 +1,13 @@
 #ifndef TARGET_H
 #define TARGET_H
+#include <QDate>
 
 enum class Column{Name, Description, Priority, Deadline, Ready};
 struct target{
     QString name;
     QString description;
     int priority;
-    QString deadline;
+    QDate deadline;
     bool ready;
 };
 

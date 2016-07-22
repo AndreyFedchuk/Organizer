@@ -7,9 +7,17 @@ tgTableModel::tgTableModel(QObject *parent): QAbstractTableModel(parent)
     tg.description = "добавить установщик";
     tg.priority = 50;
     tg.ready = false;
-    tg.deadline = "01.08.2016";
+    tg.deadline = QDate(2016, 8, 1);
 
     m_ptargetList = new QList<target>;
+    m_ptargetList->push_back(tg);
+
+    tg.name = "Посмотреть бокс";
+    tg.description = "Постол Кроуфорд";
+    tg.priority = 100;
+    tg.ready = false;
+    tg.deadline = QDate(2016, 7, 23);
+
     m_ptargetList->push_back(tg);
 }
 
@@ -99,7 +107,7 @@ bool tgTableModel::setData(const QModelIndex &index, const QVariant &value, int 
             pTarget->priority = value.toInt();
             break;
         case Column::Deadline:
-            pTarget->deadline = value.toString();
+            pTarget->deadline = value.toDate();
             break;
         case Column::Ready:
             pTarget->ready = value.toBool();
