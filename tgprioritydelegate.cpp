@@ -51,9 +51,6 @@ void tgPriorityDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     progressBar.text = QString::number(value);
     progressBar.textVisible = true;
     progressBar.textAlignment = Qt::AlignHCenter;
-    QPalette pal;
-    pal.setBrush(QPalette::Window, QBrush(Qt::red));
-    progressBar.palette = pal;
 
     QApplication::style()->drawControl(QStyle::CE_ProgressBar, &progressBar, painter);
 }
