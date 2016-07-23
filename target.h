@@ -2,7 +2,7 @@
 #define TARGET_H
 #include <QDate>
 
-enum class Column{Name, Description, Priority, Deadline, Ready};
+enum class Column{Name, Description, Priority, Deadline, Ready, columnCount};
 struct target{
     QString name;
     QString description;

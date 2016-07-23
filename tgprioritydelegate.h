@@ -6,6 +6,7 @@
 #include <QSlider>
 #include <QProgressBar>
 
+
 class tgPriorityDelegate : public QStyledItemDelegate
 {
     Q_OBJECT

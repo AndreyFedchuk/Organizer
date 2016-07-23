@@ -35,7 +35,7 @@ int tgTableModel::rowCount(const QModelIndex &parent) const
 int tgTableModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return 5;
+    return (int)Column::columnCount;
 }
 
 QVariant tgTableModel::data(const QModelIndex &index, int role) const
@@ -57,12 +57,17 @@ QVariant tgTableModel::data(const QModelIndex &index, int role) const
         return Qt::AlignCenter;
     case Qt::BackgroundRole:
         if(m_ptargetList->at(row).ready)
-            return QColor(Qt::green);
+            return QColor(Qt::gray);
+        if(m_ptargetList->at(row).priority > 75)
+            return QColor(Qt::red);
         if(m_ptargetList->at(row).priority > 50)
             return QColor(Qt::yellow);
-        return QColor(Qt::gray);
+        if(m_ptargetList->at(row).priority > 25)
+            return QColor(Qt::green);
+        else
+            return QColor(Qt::blue);
     case Qt::FontRole:
-        return QFont("Consolas", 10, QFont::Bold);
+        return QFont("Times", 10);
 
     default:
         return QVariant();
@@ -124,6 +129,7 @@ bool tgTableModel::setData(const QModelIndex &index, const QVariant &value, int 
 
 QVariant tgTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
+
     if(role != Qt::DisplayRole)
         return QVariant();
 

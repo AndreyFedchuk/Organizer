@@ -12,12 +12,12 @@ MainWindow::MainWindow(QWidget *parent) :
     tgPriorityDelegate * delegate = new tgPriorityDelegate(this);
     ui->tableView->setItemDelegateForColumn((int)Column::Priority, delegate);
 
-    ui->tableView->setColumnWidth((int)Column::Name, /*250*/200);
-    ui->tableView->resizeRowToContents((int)Column::Name);
-    ui->tableView->setColumnWidth((int)Column::Description, 150);
-    ui->tableView->resizeRowToContents((int)Column::Description);
-    ui->tableView->resizeColumnToContents((int)Column::Deadline);
-    ui->tableView->resizeColumnToContents((int)Column::Priority);
+
+//    ui->tableView->setColumnWidth((int)Column::Name, /*250*/200);
+//    ui->tableView->resizeRowToContents((int)Column::Name);
+//    ui->tableView->setColumnWidth((int)Column::Description, 150);
+//    ui->tableView->resizeColumnToContents((int)Column::Deadline);
+//    ui->tableView->resizeColumnToContents((int)Column::Priority);
 
 
 }

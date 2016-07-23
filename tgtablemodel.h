@@ -4,7 +4,8 @@
 #include <QAbstractTableModel>
 #include <QVariant>
 #include <QModelIndex>
-
+#include <QStyleOption>// ???
+#include <QApplication>
 #include <QFont>      //  ???
 #include <QColor>     //  ???
 
