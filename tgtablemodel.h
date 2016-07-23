@@ -4,8 +4,6 @@
 #include <QAbstractTableModel>
 #include <QVariant>
 #include <QModelIndex>
-#include <QStyleOption>// ???
-#include <QApplication>
 #include <QFont>      //  ???
 #include <QColor>     //  ???
 
@@ -28,6 +26,10 @@ public:
 private:
     QList<target> * m_ptargetList;
     QVariant getData(int row, int column) const;
+
+public slots:
+    void slotAddRow();
+    void slotDelRow(const QModelIndex & index);
 };
 
 #endif // TGTABLEMODEL_H

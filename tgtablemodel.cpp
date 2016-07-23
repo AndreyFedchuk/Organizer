@@ -2,6 +2,7 @@
 
 tgTableModel::tgTableModel(QObject *parent): QAbstractTableModel(parent)
 {
+    //test ////////////////////////////////
     target tg;
     tg.name = "Реализовать органайзер";
     tg.description = "добавить установщик";
@@ -19,6 +20,7 @@ tgTableModel::tgTableModel(QObject *parent): QAbstractTableModel(parent)
     tg.deadline = QDate(2016, 7, 23);
 
     m_ptargetList->push_back(tg);
+    // /////////////////////////////////////
 }
 
 tgTableModel::~tgTableModel()
@@ -93,6 +95,34 @@ QVariant tgTableModel::getData(int row, int column) const
     }
 }
 
+void tgTableModel::slotAddRow()
+{
+    beginInsertRows(QModelIndex(), m_ptargetList->size(), m_ptargetList->size());
+
+    //test//////////////////////////
+    target tg;
+    tg.name = "make homwork";
+    tg.description = "good work";
+    tg.priority = 20;
+    tg.deadline = QDate(2016, 7, 24);
+    tg.ready = false;
+
+    m_ptargetList->push_front(tg);
+    // //////////////////////////////
+
+    endInsertRows();
+}
+
+void tgTableModel::slotDelRow(const QModelIndex &index)
+{
+    beginRemoveRows(QModelIndex(), index.row(), index.row());
+
+    m_ptargetList->removeAt(index.row());
+
+    endRemoveRows();
+}
+
+
 bool tgTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if(index.isValid() && role == Qt::EditRole)
@@ -162,5 +192,3 @@ Qt::ItemFlags tgTableModel::flags(const QModelIndex &index) const
     auto result = QAbstractTableModel::flags(index);
     return result | Qt::ItemIsEditable;
 }
-
-

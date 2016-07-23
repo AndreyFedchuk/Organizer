@@ -19,6 +19,10 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    tgTableModel * m_pTableModel;
+
+private slots:
+    void slotDeleteButton();
 };
 
 #endif // MAINWINDOW_H
