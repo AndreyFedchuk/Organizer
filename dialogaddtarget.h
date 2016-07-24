@@ -20,6 +20,11 @@ public:
     int Priority();
     QDate Deadline();
 
+    void setTarget(const QString str);
+    void setDescription(const QString str);
+    void setPriority(const int priority);
+    void setDeadline(const QDate date);
+
 
 private:
     Ui::dialogAddTarget *ui;

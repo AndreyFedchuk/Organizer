@@ -30,6 +30,7 @@ private:
 public slots:
     void slotAddRow(target & tg);
     void slotDelRow(const QModelIndex & index);
+    target slotEditRow(const QModelIndex & index);
 };
 
 #endif // TGTABLEMODEL_H

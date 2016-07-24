@@ -2,9 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMessageBox>
 #include "tgtablemodel.h"
 #include "tgprioritydelegate.h"
 #include "dialogaddtarget.h"
+
+//#include <QDebug> //to test
 
 namespace Ui {
 class MainWindow;
@@ -22,10 +25,12 @@ private:
     Ui::MainWindow *ui;
     tgTableModel * m_pTableModel;
 
-private slots:
-    void slotDeleteButton(); //for test
+    bool targetFromDialog(dialogAddTarget * pDialog);
 
+private slots:
+    void slotDeleteButton();
     void slotAddButton();
+    void slotEditButton();
 };
 
 #endif // MAINWINDOW_H
