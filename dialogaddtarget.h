@@ -15,6 +15,11 @@ public:
     explicit dialogAddTarget(QWidget *parent = 0);
     ~dialogAddTarget();
 
+    QString Target();
+    QString Description();
+    int Priority();
+
+
 private:
     Ui::dialogAddTarget *ui;
 };
