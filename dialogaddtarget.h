@@ -12,12 +12,13 @@ class dialogAddTarget : public QDialog
     Q_OBJECT
 
 public:
-    explicit dialogAddTarget(QWidget *parent = 0);
+    explicit dialogAddTarget(QWidget *parent = nullptr);
     ~dialogAddTarget();
 
     QString Target();
     QString Description();
     int Priority();
+    QDate Deadline();
 
 
 private:

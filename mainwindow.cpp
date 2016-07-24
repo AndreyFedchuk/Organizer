@@ -22,8 +22,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tableView->resizeColumnToContents((int)Column::Priority);
 
 
-    connect(ui->m_pbtnAdd, SIGNAL(clicked()), m_pTableModel, SLOT(slotAddRow()));
-    connect(ui->m_pbtbDel, SIGNAL(clicked()), this, SLOT(slotDeleteButton()));
+    connect(ui->m_pbtnAdd, SIGNAL(clicked()), SLOT(slotAddButton()));
+    connect(ui->m_pbtbDel, SIGNAL(clicked()), this, SLOT(slotDeleteButton())); // to test
 }
 
 MainWindow::~MainWindow()
@@ -31,9 +31,37 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::slotDeleteButton()
+void MainWindow::slotDeleteButton() //to test
 {
+    //info window
     QModelIndex index = ui->tableView->selectionModel()->currentIndex();
     if(index.isValid())
         m_pTableModel->slotDelRow(index);
 }
+
+void MainWindow::slotAddButton()
+{
+    dialogAddTarget * pAddDialog = new dialogAddTarget;
+    if(pAddDialog->exec() == QDialog::Accepted)
+    {
+        target tg;
+        tg.name = pAddDialog->Target();
+        tg.description = pAddDialog->Description();
+        tg.priority = pAddDialog->Priority();
+        tg.deadline = pAddDialog->Deadline();
+
+        tg.ready = false;
+        m_pTableModel->slotAddRow(tg);
+    }
+
+    delete pAddDialog;
+}
+
+
+
+
+
+
+
+
+

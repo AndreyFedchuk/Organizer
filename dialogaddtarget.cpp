@@ -27,3 +27,8 @@ int dialogAddTarget::Priority()
 {
     return ui->m_plcdPrior->value();
 }
+
+QDate dialogAddTarget::Deadline()
+{
+    return ui->m_pDateDeadline->date();
+}

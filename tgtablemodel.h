@@ -28,7 +28,7 @@ private:
     QVariant getData(int row, int column) const;
 
 public slots:
-    void slotAddRow();
+    void slotAddRow(target & tg);
     void slotDelRow(const QModelIndex & index);
 };
 

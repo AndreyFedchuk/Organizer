@@ -23,7 +23,9 @@ private:
     tgTableModel * m_pTableModel;
 
 private slots:
-    void slotDeleteButton();
+    void slotDeleteButton(); //for test
+
+    void slotAddButton();
 };
 
 #endif // MAINWINDOW_H
