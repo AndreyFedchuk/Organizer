@@ -43,7 +43,7 @@ bool MainWindow::targetFromDialog(dialogAddTarget *pDialog)
         tg.deadline = pDialog->Deadline();
         tg.ready = false;
 
-        m_pTableModel->slotAddRow(tg);
+        m_pTableModel->AddRow(tg);
         return true;
     }
     else
@@ -67,7 +67,7 @@ void MainWindow::slotDeleteButton()
 
         if(pMes->exec() == QMessageBox::Yes)
         {
-            m_pTableModel->slotDelRow(index);
+            m_pTableModel->DelRow(index);
         }
     }
 }
@@ -82,7 +82,7 @@ void MainWindow::slotAddButton()
 void MainWindow::slotEditButton()
 {
     QModelIndex index = ui->tableView->selectionModel()->currentIndex();
-    target tg = m_pTableModel->slotEditRow(index);
+    target tg = m_pTableModel->EditRow(index);
     dialogAddTarget * pDialog = new dialogAddTarget;
     pDialog->setWindowTitle("Edit target");
     pDialog->setTarget(tg.name);
@@ -91,7 +91,7 @@ void MainWindow::slotEditButton()
     pDialog->setPriority(tg.priority);
 
     if(targetFromDialog(pDialog))
-       m_pTableModel->slotDelRow(index);
+       m_pTableModel->DelRow(index);
     delete pDialog;
 }
 

@@ -95,14 +95,14 @@ QVariant tgTableModel::getData(int row, int column) const
     }
 }
 
-void tgTableModel::slotAddRow(target &tg)
+void tgTableModel::AddRow(target &tg)
 {
     beginInsertRows(QModelIndex(), m_ptargetList->size(), m_ptargetList->size());
     m_ptargetList->push_back(tg);
     endInsertRows();
 }
 
-void tgTableModel::slotDelRow(const QModelIndex &index)
+void tgTableModel::DelRow(const QModelIndex &index)
 {
     beginRemoveRows(QModelIndex(), index.row(), index.row());
 
@@ -111,7 +111,7 @@ void tgTableModel::slotDelRow(const QModelIndex &index)
     endRemoveRows();
 }
 
-target tgTableModel::slotEditRow(const QModelIndex &index)
+target tgTableModel::EditRow(const QModelIndex &index)
 {
     target tg = m_ptargetList->at(index.row());
     return tg;

@@ -23,14 +23,14 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     Qt::ItemFlags flags(const QModelIndex &index) const;
 
+    void AddRow(target & tg);
+    target EditRow(const QModelIndex & index);
+    void DelRow(const QModelIndex & index);
+
 private:
     QList<target> * m_ptargetList;
     QVariant getData(int row, int column) const;
 
-public slots:
-    void slotAddRow(target & tg);
-    void slotDelRow(const QModelIndex & index);
-    target slotEditRow(const QModelIndex & index);
 };
 
 #endif // TGTABLEMODEL_H
