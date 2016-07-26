@@ -7,7 +7,7 @@
 #include "tgprioritydelegate.h"
 #include "dialogaddtarget.h"
 
-//#include <QDebug> //to test
+#include <QDebug> //to test
 
 namespace Ui {
 class MainWindow;
@@ -31,6 +31,8 @@ private slots:
     void slotDeleteButton();
     void slotAddButton();
     void slotEditButton();
+
+    void on_tableView_clicked(const QModelIndex &index);
 };
 
 #endif // MAINWINDOW_H

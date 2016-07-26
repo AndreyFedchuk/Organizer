@@ -104,10 +104,12 @@ void MainWindow::slotEditButton()
 }
 
 
-
-
-
-
-
-
-
+void MainWindow::on_tableView_clicked(const QModelIndex &index)
+{
+    auto newIndex = index.sibling(index.row(), static_cast<int>(Column::Description));
+    if(newIndex.isValid())
+    {
+        QString strDescr = m_pTableModel->data(newIndex, Qt::DisplayRole).toString();
+        ui->m_ptxtDesc->setText(strDescr);
+    }
+}
