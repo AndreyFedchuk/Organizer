@@ -11,20 +11,23 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     tgPriorityDelegate * delegate = new tgPriorityDelegate(this);
-    ui->tableView->setItemDelegateForColumn((int)Column::Priority, delegate);
+    ui->tableView->setItemDelegateForColumn(static_cast<int>(Column::Priority), delegate);
 
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->tableView->setEditTriggers(QAbstractItemView::SelectedClicked
+                                     | QAbstractItemView::DoubleClicked);
 
-    ui->tableView->setColumnWidth((int)Column::Name, 200);
-    ui->tableView->resizeRowToContents((int)Column::Name);
-    ui->tableView->setColumnWidth((int)Column::Description, 150);
-    ui->tableView->resizeColumnToContents((int)Column::Deadline);
-    ui->tableView->resizeColumnToContents((int)Column::Priority);
+    QHeaderView * header = ui->tableView->horizontalHeader();
+    header->setSectionResizeMode(QHeaderView::ResizeToContents);
+    header->setSectionResizeMode(static_cast<int>(Column::Name), QHeaderView::Stretch);
+    ui->tableView->resizeRowsToContents();
+
+
 
 
     connect(ui->m_pbtnAdd, SIGNAL(clicked()), SLOT(slotAddButton()));
     connect(ui->m_pbtbDel, SIGNAL(clicked()), SLOT(slotDeleteButton()));
-    connect(ui->m_pbtnEdit, SIGNAL(clicked(bool)), SLOT(slotEditButton()));
+    connect(ui->m_pbtnEdit, SIGNAL(clicked()), SLOT(slotEditButton()));
 }
 
 MainWindow::~MainWindow()
@@ -77,6 +80,7 @@ void MainWindow::slotAddButton()
     dialogAddTarget * pAddDialog = new dialogAddTarget;
     targetFromDialog(pAddDialog);
     delete pAddDialog;
+    ui->tableView->resizeRowsToContents();
 }
 
 void MainWindow::slotEditButton()
@@ -91,7 +95,10 @@ void MainWindow::slotEditButton()
     pDialog->setPriority(tg.priority);
 
     if(targetFromDialog(pDialog))
+    {
        m_pTableModel->DelRow(index);
+       ui->tableView->resizeRowsToContents();
+    }
     delete pDialog;
 }
 

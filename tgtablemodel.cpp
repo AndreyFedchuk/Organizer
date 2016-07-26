@@ -185,5 +185,8 @@ Qt::ItemFlags tgTableModel::flags(const QModelIndex &index) const
         return Qt::NoItemFlags;
 
     auto result = QAbstractTableModel::flags(index);
-    return result | Qt::ItemIsEditable;
+    if(index.column() == static_cast<int>(Column::Priority)
+            || index.column() == static_cast<int>(Column::Ready))
+        result |= Qt::ItemIsEditable;
+    return result;
 }
