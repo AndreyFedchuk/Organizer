@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tableView->setEditTriggers(QAbstractItemView::SelectedClicked
                                      | QAbstractItemView::DoubleClicked);
+    ui->tableView->setColumnHidden(static_cast<int>(Column::Description), true);
 
     QHeaderView * header = ui->tableView->horizontalHeader();
     header->setSectionResizeMode(QHeaderView::ResizeToContents);

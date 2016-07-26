@@ -173,7 +173,7 @@ QVariant tgTableModel::headerData(int section, Qt::Orientation orientation, int 
         case Column::Deadline:
             return QVariant("Deadline");
         case Column::Ready:
-            return QVariant("Ready/Not ready");
+            return QVariant("Ready");
         default:
             return QVariant();
         }
