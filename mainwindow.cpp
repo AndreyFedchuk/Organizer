@@ -45,7 +45,7 @@ bool MainWindow::targetFromDialog(dialogAddTarget *pDialog)
         tg.description = pDialog->Description();
         tg.priority = pDialog->Priority();
         tg.deadline = pDialog->Deadline();
-        tg.ready = false;
+        tg.ready = Status::Value::deferred;
 
         m_pTableModel->AddRow(tg);
         return true;

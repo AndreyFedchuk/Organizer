@@ -7,7 +7,7 @@ tgTableModel::tgTableModel(QObject *parent): QAbstractTableModel(parent)
     tg.name = "Реализовать органайзер";
     tg.description = "добавить установщик";
     tg.priority = 50;
-    tg.ready = false;
+    tg.ready = Status::Value::in_process;
     tg.deadline = QDate(2016, 8, 1);
 
     m_ptargetList = new QList<target>;
@@ -16,7 +16,7 @@ tgTableModel::tgTableModel(QObject *parent): QAbstractTableModel(parent)
     tg.name = "Посмотреть бокс";
     tg.description = "Постол Кроуфорд";
     tg.priority = 100;
-    tg.ready = false;
+    tg.ready = Status::Value::comleted;
     tg.deadline = QDate(2016, 7, 23);
 
     m_ptargetList->push_back(tg);
@@ -58,7 +58,7 @@ QVariant tgTableModel::data(const QModelIndex &index, int role) const
     case Qt::TextAlignmentRole:
         return Qt::AlignCenter;
     case Qt::BackgroundRole:
-        if(m_ptargetList->at(row).ready)
+        if(m_ptargetList->at(row).ready == Status::Value::comleted)
             return QColor(Qt::gray);
         if(m_ptargetList->at(row).priority > 75)
             return QColor(Qt::red);
@@ -89,7 +89,8 @@ QVariant tgTableModel::getData(int row, int column) const
     case Column::Deadline:
         return m_ptargetList->at(row).deadline;
     case Column::Ready:
-        return m_ptargetList->at(row).ready;
+        return Status::to_string(m_ptargetList->at(row).ready);
+        //return m_ptargetList->at(row).ready;
     default:
         return QVariant();
     }
@@ -140,7 +141,7 @@ bool tgTableModel::setData(const QModelIndex &index, const QVariant &value, int 
             pTarget->deadline = value.toDate();
             break;
         case Column::Ready:
-            pTarget->ready = value.toBool();
+            pTarget->ready = Status::from_string(value.toString());
             break;
         default:
             return false;
@@ -173,7 +174,7 @@ QVariant tgTableModel::headerData(int section, Qt::Orientation orientation, int 
         case Column::Deadline:
             return QVariant("Deadline");
         case Column::Ready:
-            return QVariant("Ready");
+            return QVariant("Status");
         default:
             return QVariant();
         }
