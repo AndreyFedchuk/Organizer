@@ -45,7 +45,7 @@ bool MainWindow::targetFromDialog(dialogAddTarget *pDialog)
         tg.description = pDialog->Description();
         tg.priority = pDialog->Priority();
         tg.deadline = pDialog->Deadline();
-        tg.ready = Status::Value::deferred;
+        tg.ready = pDialog->getStatus();
 
         m_pTableModel->AddRow(tg);
         return true;
@@ -94,6 +94,7 @@ void MainWindow::slotEditButton()
     pDialog->setDescription(tg.description);
     pDialog->setDeadline(tg.deadline);
     pDialog->setPriority(tg.priority);
+    pDialog->setStatus(tg.ready);
 
     if(targetFromDialog(pDialog))
     {

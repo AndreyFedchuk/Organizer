@@ -16,7 +16,7 @@ tgTableModel::tgTableModel(QObject *parent): QAbstractTableModel(parent)
     tg.name = "Посмотреть бокс";
     tg.description = "Постол Кроуфорд";
     tg.priority = 100;
-    tg.ready = Status::Value::comleted;
+    tg.ready = Status::Value::completed;
     tg.deadline = QDate(2016, 7, 23);
 
     m_ptargetList->push_back(tg);
@@ -58,7 +58,7 @@ QVariant tgTableModel::data(const QModelIndex &index, int role) const
     case Qt::TextAlignmentRole:
         return Qt::AlignCenter;
     case Qt::BackgroundRole:
-        if(m_ptargetList->at(row).ready == Status::Value::comleted)
+        if(m_ptargetList->at(row).ready == Status::Value::completed)
             return QColor(Qt::gray);
         if(m_ptargetList->at(row).priority > 75)
             return QColor(Qt::red);
@@ -90,7 +90,6 @@ QVariant tgTableModel::getData(int row, int column) const
         return m_ptargetList->at(row).deadline;
     case Column::Ready:
         return Status::to_string(m_ptargetList->at(row).ready);
-        //return m_ptargetList->at(row).ready;
     default:
         return QVariant();
     }
@@ -106,9 +105,7 @@ void tgTableModel::AddRow(target &tg)
 void tgTableModel::DelRow(const QModelIndex &index)
 {
     beginRemoveRows(QModelIndex(), index.row(), index.row());
-
     m_ptargetList->removeAt(index.row());
-
     endRemoveRows();
 }
 

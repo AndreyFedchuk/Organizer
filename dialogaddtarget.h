@@ -2,6 +2,7 @@
 #define DIALOGADDTARGET_H
 
 #include <QDialog>
+#include "target.h"
 
 namespace Ui {
 class dialogAddTarget;
@@ -19,12 +20,13 @@ public:
     QString Description();
     int Priority();
     QDate Deadline();
+    Status::Value getStatus();
 
     void setTarget(const QString str);
     void setDescription(const QString str);
     void setPriority(const int priority);
     void setDeadline(const QDate date);
-
+    void setStatus(Status::Value val);
 
 private:
     Ui::dialogAddTarget *ui;

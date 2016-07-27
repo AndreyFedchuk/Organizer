@@ -6,6 +6,8 @@ dialogAddTarget::dialogAddTarget(QWidget *parent) :
     ui(new Ui::dialogAddTarget)
 {
     ui->setupUi(this);
+    QStringList StatusList = Status::getStatusList();
+    ui->m_pcmboBoxStatus->addItems(StatusList);
 }
 
 dialogAddTarget::~dialogAddTarget()
@@ -33,6 +35,11 @@ QDate dialogAddTarget::Deadline()
     return ui->m_pDateDeadline->date();
 }
 
+Status::Value dialogAddTarget::getStatus()
+{
+    return Status::from_string(ui->m_pcmboBoxStatus->currentText());
+}
+
 void dialogAddTarget::setTarget(const QString str)
 {
     ui->m_ptxtTarget->setText(str);
@@ -51,5 +58,11 @@ void dialogAddTarget::setPriority(const int priority)
 void dialogAddTarget::setDeadline(const QDate date)
 {
     ui->m_pDateDeadline->setDate(date);
+}
+
+void dialogAddTarget::setStatus(Status::Value val)
+{
+    QString str = Status::to_string(val);
+    ui->m_pcmboBoxStatus->setCurrentText(str);
 }
 
