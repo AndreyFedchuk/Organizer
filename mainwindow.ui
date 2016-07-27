@@ -76,6 +76,9 @@
         <attribute name="verticalHeaderCascadingSectionResizes">
          <bool>false</bool>
         </attribute>
+        <attribute name="verticalHeaderMinimumSectionSize">
+         <number>30</number>
+        </attribute>
        </widget>
       </item>
       <item>
@@ -239,6 +242,15 @@
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <family>ScriptC</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -430,21 +442,7 @@
      </layout>
     </item>
    </layout>
-   <zorder>tableView</zorder>
-   <zorder>m_ptxtDesc</zorder>
-   <zorder>listView</zorder>
-   <zorder>m_plblGlobal</zorder>
-   <zorder>m_plblDescr</zorder>
-   <zorder>m_plblTasks</zorder>
-   <zorder>m_plcdReady</zorder>
-   <zorder>m_plblComleted</zorder>
-   <zorder>checkBox</zorder>
-   <zorder>checkBox</zorder>
-   <zorder>checkBox</zorder>
-   <zorder>horizontalSpacer_4</zorder>
    <zorder></zorder>
-   <zorder>m_pprogBarMain</zorder>
-   <zorder>horizontalSpacer_6</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
