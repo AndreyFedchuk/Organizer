@@ -16,13 +16,15 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     tgtablemodel.cpp \
     tgprioritydelegate.cpp \
-    dialogaddtarget.cpp
+    dialogaddtarget.cpp \
+    tgstatusdelegate.cpp
 
 HEADERS  += mainwindow.h \
     tgtablemodel.h \
     target.h \
     tgprioritydelegate.h \
-    dialogaddtarget.h
+    dialogaddtarget.h \
+    tgstatusdelegate.h
 
 FORMS    += mainwindow.ui \
     dialogaddtarget.ui

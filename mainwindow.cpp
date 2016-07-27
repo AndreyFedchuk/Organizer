@@ -12,6 +12,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     tgPriorityDelegate * delegate = new tgPriorityDelegate(this);
     ui->tableView->setItemDelegateForColumn(static_cast<int>(Column::Priority), delegate);
+    tgStatusDelegate * delegateStatus = new tgStatusDelegate(this);
+    ui->tableView->setItemDelegateForColumn(static_cast<int>(Column::Ready), delegateStatus);
 
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tableView->setEditTriggers(QAbstractItemView::SelectedClicked

@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include "tgtablemodel.h"
 #include "tgprioritydelegate.h"
+#include "tgstatusdelegate.h"
 #include "dialogaddtarget.h"
 
 #include <QDebug> //to test

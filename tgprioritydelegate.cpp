@@ -1,9 +1,6 @@
 #include "tgprioritydelegate.h"
 
-tgPriorityDelegate::tgPriorityDelegate(QObject *parent): QStyledItemDelegate(parent)
-{
-
-}
+tgPriorityDelegate::tgPriorityDelegate(QObject *parent): QStyledItemDelegate(parent) { }
 
 QWidget *tgPriorityDelegate::createEditor(QWidget *parent,
                                           const QStyleOptionViewItem &option,
