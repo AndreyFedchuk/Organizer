@@ -17,14 +17,17 @@ SOURCES += main.cpp\
     tgtablemodel.cpp \
     tgprioritydelegate.cpp \
     dialogaddtarget.cpp \
-    tgstatusdelegate.cpp
+    tgstatusdelegate.cpp \
+    setproxyparam.cpp
 
 HEADERS  += mainwindow.h \
     tgtablemodel.h \
     target.h \
     tgprioritydelegate.h \
     dialogaddtarget.h \
-    tgstatusdelegate.h
+    tgstatusdelegate.h \
+    setproxyparam.h
 
 FORMS    += mainwindow.ui \
-    dialogaddtarget.ui
+    dialogaddtarget.ui \
+    setproxyparam.ui
