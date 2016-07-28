@@ -8,6 +8,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     m_pTableModel = new tgTableModel(this);
     ui->tableView->setModel(m_pTableModel);
+    m_pProxyModel = new QSortFilterProxyModel(this);
+    m_pProxyModel->setSourceModel(m_pTableModel);
+    m_pProxyModel->setFilterKeyColumn(static_cast<int>(Column::Ready));
+    m_pProxyModel->setFilterRegExp("in process");
 
 
     tgPriorityDelegate * delegate = new tgPriorityDelegate(this);
@@ -115,4 +119,12 @@ void MainWindow::on_tableView_clicked(const QModelIndex &index)
         QString strDescr = m_pTableModel->data(newIndex, Qt::DisplayRole).toString();
         ui->m_ptxtDesc->setText(strDescr);
     }
+}
+
+void MainWindow::on_m_pCheckBoxFilter_toggled(bool checked)
+{
+    if(checked)
+        ui->tableView->setModel(m_pProxyModel);
+    else
+        ui->tableView->setModel(m_pTableModel);
 }

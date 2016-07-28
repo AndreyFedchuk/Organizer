@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QMessageBox>
+#include <QSortFilterProxyModel>
 #include "tgtablemodel.h"
 #include "tgprioritydelegate.h"
 #include "tgstatusdelegate.h"
@@ -25,6 +26,7 @@ public:
 private:
     Ui::MainWindow *ui;
     tgTableModel * m_pTableModel;
+    QSortFilterProxyModel * m_pProxyModel;
 
     bool targetFromDialog(dialogAddTarget * pDialog);
 
@@ -34,6 +36,7 @@ private slots:
     void slotEditButton();
 
     void on_tableView_clicked(const QModelIndex &index);
+    void on_m_pCheckBoxFilter_toggled(bool checked);
 };
 
 #endif // MAINWINDOW_H
