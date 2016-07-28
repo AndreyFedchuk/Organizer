@@ -38,7 +38,7 @@ private slots:
 
     void on_tableView_clicked(const QModelIndex &index);
     void on_m_pCheckBoxFilter_toggled(bool checked);
-    void on_test_clicked();
+    void slotEditFilter();
 };
 
 #endif // MAINWINDOW_H

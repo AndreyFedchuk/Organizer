@@ -5,6 +5,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    //base Param
     ui->setupUi(this);
     m_pTableModel = new tgTableModel(this);
     ui->tableView->setModel(m_pTableModel);
@@ -12,24 +13,24 @@ MainWindow::MainWindow(QWidget *parent) :
     m_pProxyModel->setSourceModel(m_pTableModel);
     m_pProxyModel->setFilterKeyColumn(static_cast<int>(Column::Ready));
 
+    //init delegate
     tgPriorityDelegate * delegate = new tgPriorityDelegate(this);
     ui->tableView->setItemDelegateForColumn(static_cast<int>(Column::Priority), delegate);
     tgStatusDelegate * delegateStatus = new tgStatusDelegate(this);
     ui->tableView->setItemDelegateForColumn(static_cast<int>(Column::Ready), delegateStatus);
 
+    //Setting to view
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tableView->setEditTriggers(QAbstractItemView::SelectedClicked
                                      | QAbstractItemView::DoubleClicked);
     ui->tableView->setColumnHidden(static_cast<int>(Column::Description), true);
-
     QHeaderView * header = ui->tableView->horizontalHeader();
     header->setSectionResizeMode(QHeaderView::ResizeToContents);
     header->setSectionResizeMode(static_cast<int>(Column::Name), QHeaderView::Stretch);
     ui->tableView->resizeRowsToContents();
 
-
-
-
+    //SLOTs and SIGNALs
+    connect(ui->actionEditFilter, SIGNAL(triggered(bool)), SLOT(slotEditFilter()));
     connect(ui->m_pbtnAdd, SIGNAL(clicked()), SLOT(slotAddButton()));
     connect(ui->m_pbtbDel, SIGNAL(clicked()), SLOT(slotDeleteButton()));
     connect(ui->m_pbtnEdit, SIGNAL(clicked()), SLOT(slotEditButton()));
@@ -130,7 +131,7 @@ void MainWindow::on_m_pCheckBoxFilter_toggled(bool checked)
         ui->tableView->setModel(m_pTableModel);
 }
 
-void MainWindow::on_test_clicked()
+void MainWindow::slotEditFilter()
 {
     SetProxyParam * pDialog = new SetProxyParam(this);
     if(pDialog->exec() == QDialog::Accepted)
