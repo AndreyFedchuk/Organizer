@@ -12,3 +12,23 @@ SetProxyParam::~SetProxyParam()
 {
     delete ui;
 }
+
+bool SetProxyParam::inProcess()
+{
+    return ui->m_pCheckProcess->isChecked();
+}
+
+bool SetProxyParam::inWaiting()
+{
+    return ui->m_pCheckWaiting->isChecked();
+}
+
+bool SetProxyParam::Completed()
+{
+    return ui->m_pCheckCompleted->isChecked();
+}
+
+bool SetProxyParam::Deferred()
+{
+    return ui->m_pCheckDeferred->isChecked();
+}

@@ -11,8 +11,6 @@ MainWindow::MainWindow(QWidget *parent) :
     m_pProxyModel = new QSortFilterProxyModel(this);
     m_pProxyModel->setSourceModel(m_pTableModel);
     m_pProxyModel->setFilterKeyColumn(static_cast<int>(Column::Ready));
-    m_pProxyModel->setFilterRegExp("in process");
-
 
     tgPriorityDelegate * delegate = new tgPriorityDelegate(this);
     ui->tableView->setItemDelegateForColumn(static_cast<int>(Column::Priority), delegate);
@@ -93,21 +91,24 @@ void MainWindow::slotAddButton()
 void MainWindow::slotEditButton()
 {
     QModelIndex index = ui->tableView->selectionModel()->currentIndex();
-    target tg = m_pTableModel->EditRow(index);
-    dialogAddTarget * pDialog = new dialogAddTarget;
-    pDialog->setWindowTitle("Edit target");
-    pDialog->setTarget(tg.name);
-    pDialog->setDescription(tg.description);
-    pDialog->setDeadline(tg.deadline);
-    pDialog->setPriority(tg.priority);
-    pDialog->setStatus(tg.ready);
-
-    if(targetFromDialog(pDialog))
+    if(index.isValid()) //реализовать уведомление!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     {
-       m_pTableModel->DelRow(index);
-       ui->tableView->resizeRowsToContents();
+        target tg = m_pTableModel->EditRow(index);
+        dialogAddTarget * pDialog = new dialogAddTarget;
+        pDialog->setWindowTitle("Edit target");
+        pDialog->setTarget(tg.name);
+        pDialog->setDescription(tg.description);
+        pDialog->setDeadline(tg.deadline);
+        pDialog->setPriority(tg.priority);
+        pDialog->setStatus(tg.ready);
+
+        if(targetFromDialog(pDialog))
+        {
+            m_pTableModel->DelRow(index);
+            ui->tableView->resizeRowsToContents();
+        }
+        delete pDialog;
     }
-    delete pDialog;
 }
 
 
@@ -127,4 +128,24 @@ void MainWindow::on_m_pCheckBoxFilter_toggled(bool checked)
         ui->tableView->setModel(m_pProxyModel);
     else
         ui->tableView->setModel(m_pTableModel);
+}
+
+void MainWindow::on_test_clicked()
+{
+    SetProxyParam * pDialog = new SetProxyParam(this);
+    if(pDialog->exec() == QDialog::Accepted)
+    {
+        QString str = "";
+        if(pDialog->inProcess())
+            str += "in process";
+        if(pDialog->inWaiting())
+            str.isEmpty() ? str += "in waiting" : str += "|in waiting";
+        if(pDialog->Completed())
+            str.isEmpty() ? str += "completed" : str += "|completed";
+        if(pDialog->Deferred())
+            str.isEmpty() ? str += "deferred" : str += "|deferred";
+
+        m_pProxyModel->setFilterRegExp(str);
+    }
+    delete pDialog;
 }

@@ -194,7 +194,7 @@
      </layout>
     </item>
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,3,0,0,1,0">
+     <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,3,0,0,0,1,0">
       <property name="spacing">
        <number>6</number>
       </property>
@@ -362,6 +362,13 @@
          </spacer>
         </item>
        </layout>
+      </item>
+      <item>
+       <widget class="QPushButton" name="test">
+        <property name="text">
+         <string>test</string>
+        </property>
+       </widget>
       </item>
       <item>
        <spacer name="verticalSpacer_2">

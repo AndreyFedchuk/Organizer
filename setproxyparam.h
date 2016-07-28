@@ -12,8 +12,13 @@ class SetProxyParam : public QDialog
     Q_OBJECT
 
 public:
-    explicit SetProxyParam(QWidget *parent = 0);
+    explicit SetProxyParam(QWidget *parent = nullptr);
     ~SetProxyParam();
+
+    bool inProcess();
+    bool inWaiting();
+    bool Completed();
+    bool Deferred();
 
 private:
     Ui::SetProxyParam *ui;
