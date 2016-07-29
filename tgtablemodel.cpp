@@ -109,6 +109,17 @@ void tgTableModel::DelRow(const QModelIndex &index)
     endRemoveRows();
 }
 
+int tgTableModel::completedCount()
+{
+    int count(0);
+    for(auto it = m_ptargetList->begin(); it != m_ptargetList->end(); ++it)
+    {
+        if(it->ready == Status::Value::completed)
+            count++;
+    }
+    return count;
+}
+
 target tgTableModel::EditRow(const QModelIndex &index)
 {
     target tg = m_ptargetList->at(index.row());

@@ -79,6 +79,9 @@
         <attribute name="verticalHeaderMinimumSectionSize">
          <number>30</number>
         </attribute>
+        <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+         <bool>false</bool>
+        </attribute>
        </widget>
       </item>
       <item>

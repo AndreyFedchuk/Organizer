@@ -26,6 +26,7 @@ public:
     void AddRow(target & tg);
     target EditRow(const QModelIndex & index);
     void DelRow(const QModelIndex & index);
+    int completedCount();
 
 private:
     QList<target> * m_ptargetList;

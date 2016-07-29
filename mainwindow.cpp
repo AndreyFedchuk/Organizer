@@ -12,6 +12,12 @@ MainWindow::MainWindow(QWidget *parent) :
     m_pProxyModel = new QSortFilterProxyModel(this);
     m_pProxyModel->setSourceModel(m_pTableModel);
     m_pProxyModel->setFilterKeyColumn(static_cast<int>(Column::Ready));
+    ui->tableView->setSortingEnabled(true);
+    m_pProxyModel->sort(static_cast<int>(Column::Priority), Qt::DescendingOrder);
+    ui->m_plcdReady->display(m_pTableModel->completedCount());
+    ui->m_pprogBarMain->setRange(0, m_pTableModel->rowCount());
+    ui->m_pprogBarMain->setValue(ui->m_plcdReady->value());
+
 
     //init delegate
     tgPriorityDelegate * delegate = new tgPriorityDelegate(this);
@@ -62,13 +68,12 @@ bool MainWindow::targetFromDialog(dialogAddTarget *pDialog)
 void MainWindow::slotDeleteButton()
 {
     QModelIndex index = ui->tableView->selectionModel()->currentIndex();
-    index = index.sibling(index.row(), static_cast<int>(Column::Name));
-    QVariant var = m_pTableModel->data(index, Qt::DisplayRole);
-    target targetName;
-    targetName.name = var.toString();
-
     if(index.isValid())
     {
+        index = index.sibling(index.row(), static_cast<int>(Column::Name));
+        QVariant var = m_pTableModel->data(index, Qt::DisplayRole);
+        target targetName;
+        targetName.name = var.toString();
         QMessageBox * pMes =  new QMessageBox(QMessageBox::Warning, "Delete the target",
                                              "Want to remove the target: \"<b>" + targetName.name + "</b>\" ?",
                                              QMessageBox::Yes | QMessageBox::No,
@@ -79,6 +84,8 @@ void MainWindow::slotDeleteButton()
             m_pTableModel->DelRow(index);
         }
     }
+    else
+        QMessageBox::information(this, "Information", "Select row to delete");
 }
 
 void MainWindow::slotAddButton()
@@ -92,7 +99,7 @@ void MainWindow::slotAddButton()
 void MainWindow::slotEditButton()
 {
     QModelIndex index = ui->tableView->selectionModel()->currentIndex();
-    if(index.isValid()) //реализовать уведомление!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    if(index.isValid())
     {
         target tg = m_pTableModel->EditRow(index);
         dialogAddTarget * pDialog = new dialogAddTarget;
@@ -110,6 +117,8 @@ void MainWindow::slotEditButton()
         }
         delete pDialog;
     }
+    else
+        QMessageBox::information(this, "Information", "Select row to edite");
 }
 
 
