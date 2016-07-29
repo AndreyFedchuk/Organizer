@@ -35,6 +35,7 @@ private slots:
     void slotDeleteButton();
     void slotAddButton();
     void slotEditButton();
+    void slotChangeLCD(int val);
 
     void on_tableView_clicked(const QModelIndex &index);
     void on_m_pCheckBoxFilter_toggled(bool checked);

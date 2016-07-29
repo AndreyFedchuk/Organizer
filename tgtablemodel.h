@@ -32,6 +32,9 @@ private:
     QList<target> * m_ptargetList;
     QVariant getData(int row, int column) const;
 
+signals:
+    void completedCountChanged(int);
+
 };
 
 #endif // TGTABLEMODEL_H

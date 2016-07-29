@@ -40,6 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_pbtnAdd, SIGNAL(clicked()), SLOT(slotAddButton()));
     connect(ui->m_pbtbDel, SIGNAL(clicked()), SLOT(slotDeleteButton()));
     connect(ui->m_pbtnEdit, SIGNAL(clicked()), SLOT(slotEditButton()));
+    connect(m_pTableModel, SIGNAL(completedCountChanged(int)), SLOT(slotChangeLCD(int)));
 }
 
 MainWindow::~MainWindow()
@@ -59,6 +60,11 @@ bool MainWindow::targetFromDialog(dialogAddTarget *pDialog)
         tg.ready = pDialog->getStatus();
 
         m_pTableModel->AddRow(tg);
+
+        //for LCD
+        int plus(1);
+        if(tg.ready == Status::Value::completed)
+            slotChangeLCD(plus);
         return true;
     }
     else
@@ -81,6 +87,14 @@ void MainWindow::slotDeleteButton()
 
         if(pMes->exec() == QMessageBox::Yes)
         {
+            // for LCD
+            int minus(-1);
+            index = index.sibling(index.row(), static_cast<int>(Column::Ready));
+            var = m_pTableModel->data(index, Qt::DisplayRole);
+            targetName.ready = Status::from_string(var.toString());
+            if(targetName.ready == Status::Value::completed)
+                slotChangeLCD(minus);
+
             m_pTableModel->DelRow(index);
         }
     }
@@ -100,7 +114,7 @@ void MainWindow::slotEditButton()
 {
     QModelIndex index = ui->tableView->selectionModel()->currentIndex();
     if(index.isValid())
-    {
+    {        
         target tg = m_pTableModel->EditRow(index);
         dialogAddTarget * pDialog = new dialogAddTarget;
         pDialog->setWindowTitle("Edit target");
@@ -110,15 +124,28 @@ void MainWindow::slotEditButton()
         pDialog->setPriority(tg.priority);
         pDialog->setStatus(tg.ready);
 
+        //for LCD
+        int minus(-1);
+        Status::Value val = tg.ready;
+
         if(targetFromDialog(pDialog))
         {
             m_pTableModel->DelRow(index);
             ui->tableView->resizeRowsToContents();
+
+            //for LCD
+            if(val == Status::Value::completed)
+                slotChangeLCD(minus);
         }
         delete pDialog;
     }
     else
         QMessageBox::information(this, "Information", "Select row to edite");
+}
+
+void MainWindow::slotChangeLCD(int val)
+{
+    ui->m_plcdReady->display(ui->m_plcdReady->value() + val);
 }
 
 

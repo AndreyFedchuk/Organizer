@@ -149,8 +149,16 @@ bool tgTableModel::setData(const QModelIndex &index, const QVariant &value, int 
             pTarget->deadline = value.toDate();
             break;
         case Column::Ready:
+        {
+            int minus(-1), plus(1);
+            Status::Value val = pTarget->ready;
             pTarget->ready = Status::from_string(value.toString());
+            if(val == Status::Value::completed)
+                emit completedCountChanged(minus);
+            if(pTarget->ready == Status::Value::completed)
+                emit completedCountChanged(plus);
             break;
+        }
         default:
             return false;
         }
