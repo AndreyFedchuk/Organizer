@@ -65,10 +65,18 @@ bool MainWindow::targetFromDialog(dialogAddTarget *pDialog)
         int plus(1);
         if(tg.ready == Status::Value::completed)
             slotChangeLCD(plus);
+
+        //for ProgressBar
+        changeRangeProgBar(1);
         return true;
     }
     else
         return false;
+}
+
+void MainWindow::changeRangeProgBar(int val)
+{
+    ui->m_pprogBarMain->setRange(0, ui->m_pprogBarMain->maximum() + val);
 }
 
 void MainWindow::slotDeleteButton()
@@ -95,7 +103,11 @@ void MainWindow::slotDeleteButton()
             if(targetName.ready == Status::Value::completed)
                 slotChangeLCD(minus);
 
+            //for ProgressBar
+            changeRangeProgBar(-1);
+
             m_pTableModel->DelRow(index);
+
         }
     }
     else
@@ -146,6 +158,7 @@ void MainWindow::slotEditButton()
 void MainWindow::slotChangeLCD(int val)
 {
     ui->m_plcdReady->display(ui->m_plcdReady->value() + val);
+    ui->m_pprogBarMain->setValue(ui->m_pprogBarMain->value() + val);
 }
 
 

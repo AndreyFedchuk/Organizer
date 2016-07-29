@@ -30,6 +30,7 @@ private:
     QSortFilterProxyModel * m_pProxyModel;
 
     bool targetFromDialog(dialogAddTarget * pDialog);
+    void changeRangeProgBar(int val);
 
 private slots:
     void slotDeleteButton();
