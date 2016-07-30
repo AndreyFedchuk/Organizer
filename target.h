@@ -3,6 +3,8 @@
 #include <QObject>
 #include <QDate>
 #include <QMap>
+#include <QDataStream>
+#include <QVariant>
 
 enum class Column{Name, Description, Priority, Deadline, Ready, columnCount};
 
@@ -60,5 +62,28 @@ struct target{
     QDate deadline;
     Status::Value ready;
 };
+
+inline QDataStream &operator << (QDataStream &stream, const target &tg)
+{
+    stream << tg.name;
+    stream << tg.description;
+    stream << tg.priority;
+    stream << tg.deadline;
+    quint32 Num = static_cast<quint32>(tg.ready);
+    stream << Num;
+    return stream;
+}
+
+inline QDataStream &operator >> (QDataStream &stream, target  &tg)
+{
+    stream >> tg.name;
+    stream >> tg.description;
+    stream >> tg.priority;
+    stream >> tg.deadline;
+    quint32 Num;
+    stream >> Num;
+    tg.ready = static_cast<Status::Value>(Num);
+    return stream;
+}
 
 #endif // TARGET_H

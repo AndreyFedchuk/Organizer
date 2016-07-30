@@ -120,6 +120,34 @@ int tgTableModel::completedCount()
     return count;
 }
 
+void tgTableModel::Load(QString &path)
+{
+    QFile file(path);
+    if(file.open(QIODevice::ReadOnly))
+    {
+        beginResetModel();
+        m_ptargetList->clear();
+
+        QDataStream in(&file);
+        in.setVersion(QDataStream::Qt_5_7);
+        in >> *m_ptargetList;
+        file.close();
+        endResetModel();
+    }
+}
+
+void tgTableModel::Save(QString &path)
+{
+    QFile file(path);
+    if(file.open(QIODevice::WriteOnly))
+    {
+        QDataStream out(&file);
+        out.setVersion(QDataStream::Qt_5_7);
+        out << *m_ptargetList;
+        file.close();
+    }
+}
+
 target tgTableModel::EditRow(const QModelIndex &index)
 {
     target tg = m_ptargetList->at(index.row());

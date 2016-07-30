@@ -4,6 +4,7 @@
 #include <QAbstractTableModel>
 #include <QVariant>
 #include <QModelIndex>
+#include <QFile>
 #include <QFont>      //  ???
 #include <QColor>     //  ???
 
@@ -27,6 +28,8 @@ public:
     target EditRow(const QModelIndex & index);
     void DelRow(const QModelIndex & index);
     int completedCount();
+    void Load(QString &path);
+    void Save(QString &path);
 
 private:
     QList<target> * m_ptargetList;

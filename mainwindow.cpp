@@ -14,9 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_pProxyModel->setFilterKeyColumn(static_cast<int>(Column::Ready));
     ui->tableView->setSortingEnabled(true);
     m_pProxyModel->sort(static_cast<int>(Column::Priority), Qt::DescendingOrder);
-    ui->m_plcdReady->display(m_pTableModel->completedCount());
-    ui->m_pprogBarMain->setRange(0, m_pTableModel->rowCount());
-    ui->m_pprogBarMain->setValue(ui->m_plcdReady->value());
+    syncCompletedParam();
 
 
     //init delegate
@@ -36,6 +34,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tableView->resizeRowsToContents();
 
     //SLOTs and SIGNALs
+    connect(ui->actionSave, SIGNAL(triggered(bool)), SLOT(slotSave()));
+    connect(ui->actionLoad, SIGNAL(triggered(bool)), SLOT(slotLoad()));
     connect(ui->actionEditFilter, SIGNAL(triggered(bool)), SLOT(slotEditFilter()));
     connect(ui->m_pbtnAdd, SIGNAL(clicked()), SLOT(slotAddButton()));
     connect(ui->m_pbtbDel, SIGNAL(clicked()), SLOT(slotDeleteButton()));
@@ -77,6 +77,13 @@ bool MainWindow::targetFromDialog(dialogAddTarget *pDialog)
 void MainWindow::changeRangeProgBar(int val)
 {
     ui->m_pprogBarMain->setRange(0, ui->m_pprogBarMain->maximum() + val);
+}
+
+void MainWindow::syncCompletedParam()
+{
+    ui->m_plcdReady->display(m_pTableModel->completedCount());
+    ui->m_pprogBarMain->setRange(0, m_pTableModel->rowCount());
+    ui->m_pprogBarMain->setValue(ui->m_plcdReady->value());
 }
 
 void MainWindow::slotDeleteButton()
@@ -159,6 +166,19 @@ void MainWindow::slotChangeLCD(int val)
 {
     ui->m_plcdReady->display(ui->m_plcdReady->value() + val);
     ui->m_pprogBarMain->setValue(ui->m_pprogBarMain->value() + val);
+}
+
+void MainWindow::slotLoad()
+{
+    QString path = QFileDialog::getOpenFileName(this, "Load data", "*.tg");
+    m_pTableModel->Load(path);
+    syncCompletedParam();
+}
+
+void MainWindow::slotSave()
+{
+    QString path = QFileDialog::getSaveFileName(this, "Save data", "tmp", "*.tg");
+    m_pTableModel->Save(path);
 }
 
 
