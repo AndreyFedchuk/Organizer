@@ -462,6 +462,8 @@
     </property>
     <addaction name="actionLoad"/>
     <addaction name="actionSave"/>
+    <addaction name="separator"/>
+    <addaction name="actionDaily_tasks"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -503,6 +505,11 @@
   <action name="actionSave">
    <property name="text">
     <string>Save...</string>
+   </property>
+  </action>
+  <action name="actionDaily_tasks">
+   <property name="text">
+    <string>Daily tasks...</string>
    </property>
   </action>
  </widget>

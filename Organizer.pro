@@ -18,7 +18,10 @@ SOURCES += main.cpp\
     tgprioritydelegate.cpp \
     dialogaddtarget.cpp \
     tgstatusdelegate.cpp \
-    setproxyparam.cpp
+    setproxyparam.cpp \
+    dailytasks.cpp \
+    dailytasksmodel.cpp \
+    dialogdailytask.cpp
 
 HEADERS  += mainwindow.h \
     tgtablemodel.h \
@@ -26,8 +29,14 @@ HEADERS  += mainwindow.h \
     tgprioritydelegate.h \
     dialogaddtarget.h \
     tgstatusdelegate.h \
-    setproxyparam.h
+    setproxyparam.h \
+    dailytasks.h \
+    dailytasksmodel.h \
+    task.h \
+    dialogdailytask.h
 
 FORMS    += mainwindow.ui \
     dialogaddtarget.ui \
-    setproxyparam.ui
+    setproxyparam.ui \
+    dailytasks.ui \
+    dialogdailytask.ui

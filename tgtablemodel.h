@@ -5,8 +5,8 @@
 #include <QVariant>
 #include <QModelIndex>
 #include <QFile>
-#include <QFont>      //  ???
-#include <QColor>     //  ???
+#include <QFont>
+#include <QColor>
 
 #include "target.h"
 

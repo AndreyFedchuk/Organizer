@@ -2,25 +2,7 @@
 
 tgTableModel::tgTableModel(QObject *parent): QAbstractTableModel(parent)
 {
-    //test ////////////////////////////////
-    target tg;
-    tg.name = "Реализовать органайзер";
-    tg.description = "добавить установщик";
-    tg.priority = 50;
-    tg.ready = Status::Value::in_process;
-    tg.deadline = QDate(2016, 8, 1);
-
     m_ptargetList = new QList<target>;
-    m_ptargetList->push_back(tg);
-
-    tg.name = "Посмотреть бокс";
-    tg.description = "Постол Кроуфорд";
-    tg.priority = 100;
-    tg.ready = Status::Value::completed;
-    tg.deadline = QDate(2016, 7, 23);
-
-    m_ptargetList->push_back(tg);
-    // /////////////////////////////////////
 }
 
 tgTableModel::~tgTableModel()

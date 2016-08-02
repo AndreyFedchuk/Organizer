@@ -15,6 +15,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tableView->setSortingEnabled(true);
     m_pProxyModel->sort(static_cast<int>(Column::Priority), Qt::DescendingOrder);
     syncCompletedParam();
+    ui->m_pprogBarMain->setRange(0, 100);
+    ui->m_pprogBarMain->setValue(0);
 
 
     //init delegate
@@ -45,6 +47,19 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    if(!m_lastLoadPath.isEmpty())
+    {
+        QMessageBox * pMes =  new QMessageBox(QMessageBox::Warning, "Save...",
+                                             "Do you want to save the targets in file: \"<b>" + m_lastLoadPath + "</b>\" ?",
+                                             QMessageBox::Yes | QMessageBox::No,
+                                             this);
+        if(pMes->exec() == QMessageBox::Yes)
+            m_pTableModel->Save(m_lastLoadPath);
+        delete pMes;
+    }
+
+    delete m_pTableModel;
+    delete m_pProxyModel;
     delete ui;
 }
 
@@ -88,7 +103,11 @@ void MainWindow::syncCompletedParam()
 
 void MainWindow::slotDeleteButton()
 {
-    QModelIndex index = ui->tableView->selectionModel()->currentIndex();
+    QModelIndex index;
+    if(ui->m_pCheckBoxFilter->isChecked())
+        index = m_pProxyModel->mapToSource(ui->tableView->selectionModel()->currentIndex());
+    else
+        index = ui->tableView->selectionModel()->currentIndex();
     if(index.isValid())
     {
         index = index.sibling(index.row(), static_cast<int>(Column::Name));
@@ -116,6 +135,7 @@ void MainWindow::slotDeleteButton()
             m_pTableModel->DelRow(index);
 
         }
+        delete pMes;
     }
     else
         QMessageBox::information(this, "Information", "Select row to delete");
@@ -131,7 +151,11 @@ void MainWindow::slotAddButton()
 
 void MainWindow::slotEditButton()
 {
-    QModelIndex index = ui->tableView->selectionModel()->currentIndex();
+    QModelIndex index;
+    if(ui->m_pCheckBoxFilter->isChecked())
+        index = m_pProxyModel->mapToSource(ui->tableView->selectionModel()->currentIndex());
+    else
+        index = ui->tableView->selectionModel()->currentIndex();
     if(index.isValid())
     {        
         target tg = m_pTableModel->EditRow(index);
@@ -170,8 +194,8 @@ void MainWindow::slotChangeLCD(int val)
 
 void MainWindow::slotLoad()
 {
-    QString path = QFileDialog::getOpenFileName(this, "Load data", "*.tg");
-    m_pTableModel->Load(path);
+    m_lastLoadPath = QFileDialog::getOpenFileName(this, "Load data", "*.tg");
+    m_pTableModel->Load(m_lastLoadPath);
     syncCompletedParam();
 }
 
@@ -184,7 +208,10 @@ void MainWindow::slotSave()
 
 void MainWindow::on_tableView_clicked(const QModelIndex &index)
 {
-    auto newIndex = index.sibling(index.row(), static_cast<int>(Column::Description));
+    QModelIndex _index = index;
+    if(ui->m_pCheckBoxFilter->isChecked())
+        _index = m_pProxyModel->mapToSource(index);
+    auto newIndex = _index.sibling(_index.row(), static_cast<int>(Column::Description));
     if(newIndex.isValid())
     {
         QString strDescr = m_pTableModel->data(newIndex, Qt::DisplayRole).toString();
@@ -218,4 +245,11 @@ void MainWindow::slotEditFilter()
         m_pProxyModel->setFilterRegExp(str);
     }
     delete pDialog;
+}
+
+void MainWindow::on_actionDaily_tasks_triggered()
+{
+    DailyTasks * windowTask = new DailyTasks;
+    windowTask->exec();
+    delete windowTask;
 }

@@ -10,8 +10,7 @@
 #include "tgstatusdelegate.h"
 #include "dialogaddtarget.h"
 #include "setproxyparam.h"
-
-#include <QDebug> //to test
+#include "dailytasks.h"
 
 namespace Ui {
 class MainWindow;
@@ -29,6 +28,7 @@ private:
     Ui::MainWindow *ui;
     tgTableModel * m_pTableModel;
     QSortFilterProxyModel * m_pProxyModel;
+    QString m_lastLoadPath;
 
     bool targetFromDialog(dialogAddTarget * pDialog);
     void changeRangeProgBar(int val);
@@ -45,6 +45,7 @@ private slots:
     void on_tableView_clicked(const QModelIndex &index);
     void on_m_pCheckBoxFilter_toggled(bool checked);
     void slotEditFilter();
+    void on_actionDaily_tasks_triggered();
 };
 
 #endif // MAINWINDOW_H
