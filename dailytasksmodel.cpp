@@ -154,3 +154,14 @@ void DailyTasksModel::delTask(QModelIndex &index)
     m_pList->removeAt(index.row());
     endRemoveRows();
 }
+
+int DailyTasksModel::getCountCompleted()
+{
+    int nCount(0);
+    foreach(const task &ts, *m_pList)
+    {
+        if(ts.completed)
+            ++nCount;
+    }
+    return nCount;
+}

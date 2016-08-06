@@ -9,16 +9,16 @@ DailyTasks::DailyTasks(QWidget *parent) :
     ui->setupUi(this);
     m_pTaskModel = new DailyTasksModel(this);
     m_pProxy = new QSortFilterProxyModel(this);
-
     m_pProxy->setSourceModel(m_pTaskModel);
     m_pProxy->setFilterKeyColumn(static_cast<int>(taskColumn::Date));
     ui->tableView->setModel(m_pProxy);
     ui->tableView->setSortingEnabled(true);
     m_pProxy->sort(static_cast<int>(taskColumn::ID));
+    ui->progressBarTask->setRange(0, m_pTaskModel->rowCount());
+    ui->progressBarTask->setValue(m_pTaskModel->getCountCompleted());
 
     //Setting to view
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectItems);
-    //ui->tableView->setColumnHidden(static_cast<int>(taskColumn::Date), true);
     QHeaderView * header = ui->tableView->horizontalHeader();
     header->setSectionResizeMode(QHeaderView::ResizeToContents);
     header->setSectionResizeMode(static_cast<int>(taskColumn::Task), QHeaderView::Stretch);
@@ -37,6 +37,31 @@ void DailyTasks::on_calendarWidget_clicked(const QDate &date)
     m_pProxy->setFilterRegExp(date.toString("yyyy-MM-dd"));
     ui->tableView->setColumnHidden(static_cast<int>(taskColumn::Date), true);
     ui->tableView->resizeRowsToContents();
+
+    //to progressBar
+    if(m_pProxy->rowCount())
+    {
+        int nCountCompleted(0);
+        QModelIndex index;
+        for(int i(0); i < m_pProxy->rowCount(); ++i)
+        {
+            index =  m_pProxy->index(i, static_cast<int>(taskColumn::Completed));
+            if(index.isValid())
+            {
+                if(index.data().toString() == "ready")
+                    ++nCountCompleted;
+            }
+            else
+                break;
+        }
+        ui->progressBarTask->setRange(0, m_pProxy->rowCount());
+        ui->progressBarTask->setValue(nCountCompleted);
+    }
+    else
+    {
+        ui->progressBarTask->setRange(0, 1);
+        ui->progressBarTask->setValue(0);
+    }
 }
 
 void DailyTasks::on_m_pbtnAdd_clicked()

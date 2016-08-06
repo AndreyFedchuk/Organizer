@@ -5,9 +5,7 @@
 
 #include <QList>
 #include <QFile>
-
 #include "task.h"
-#include <QDebug>
 #include <QDir>
 
 class DailyTasksModel : public QAbstractTableModel
@@ -37,6 +35,7 @@ public:
     void addTask(task &ts);
     task editTask(QModelIndex &index);
     void delTask(QModelIndex &index);
+    int getCountCompleted();
 
 private:
    QList<task> * m_pList;

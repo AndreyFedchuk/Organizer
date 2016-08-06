@@ -6,6 +6,7 @@
 #include <QSortFilterProxyModel>
 #include "dailytasksmodel.h"
 #include "dialogdailytask.h"
+#include <QModelIndex>
 
 namespace Ui {
 class DailyTasks;
