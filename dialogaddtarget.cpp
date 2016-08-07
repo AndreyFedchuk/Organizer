@@ -6,6 +6,7 @@ dialogAddTarget::dialogAddTarget(QWidget *parent) :
     ui(new Ui::dialogAddTarget)
 {
     ui->setupUi(this);
+    ui->m_pDateDeadline->setDate(QDate::currentDate());
     QStringList StatusList = Status::getStatusList();
     ui->m_pcmboBoxStatus->addItems(StatusList);
 }

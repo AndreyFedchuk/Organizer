@@ -155,6 +155,9 @@
          <property name="readOnly">
           <bool>false</bool>
          </property>
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
       </layout>

@@ -28,6 +28,11 @@
          </property>
          <item>
           <widget class="QLabel" name="m_plblTarget">
+           <property name="font">
+            <font>
+             <family>Segoe Print</family>
+            </font>
+           </property>
            <property name="text">
             <string>Target:</string>
            </property>
@@ -45,6 +50,11 @@
          </property>
          <item>
           <widget class="QLabel" name="m_plblDesc">
+           <property name="font">
+            <font>
+             <family>Segoe Print</family>
+            </font>
+           </property>
            <property name="text">
             <string>Description:</string>
            </property>
@@ -82,6 +92,11 @@
          </property>
          <item>
           <widget class="QLabel" name="m_plblPrior">
+           <property name="font">
+            <font>
+             <family>Segoe Print</family>
+            </font>
+           </property>
            <property name="layoutDirection">
             <enum>Qt::LeftToRight</enum>
            </property>
@@ -163,6 +178,11 @@
          </property>
          <item>
           <widget class="QLabel" name="m_plblDeadline">
+           <property name="font">
+            <font>
+             <family>Segoe Print</family>
+            </font>
+           </property>
            <property name="text">
             <string>Deadline:</string>
            </property>
@@ -200,6 +220,11 @@
          </property>
          <item>
           <widget class="QLabel" name="label">
+           <property name="font">
+            <font>
+             <family>Segoe Print</family>
+            </font>
+           </property>
            <property name="text">
             <string>Status</string>
            </property>

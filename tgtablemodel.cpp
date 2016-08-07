@@ -41,15 +41,15 @@ QVariant tgTableModel::data(const QModelIndex &index, int role) const
         return Qt::AlignCenter;
     case Qt::BackgroundRole:
         if(m_ptargetList->at(row).ready == Status::Value::completed)
-            return QColor(Qt::gray);
+            return QColor(Qt::lightGray);
         if(m_ptargetList->at(row).priority > 75)
             return QColor(Qt::red);
         if(m_ptargetList->at(row).priority > 50)
             return QColor(Qt::yellow);
         if(m_ptargetList->at(row).priority > 25)
-            return QColor(Qt::green);
+            return QColor(Qt::cyan);
         else
-            return QColor(Qt::blue);
+            return QColor(Qt::green);
     case Qt::FontRole:
         return QFont("Times", 10);
 

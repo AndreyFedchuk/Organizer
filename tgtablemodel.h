@@ -7,7 +7,6 @@
 #include <QFile>
 #include <QFont>
 #include <QColor>
-
 #include "target.h"
 
 

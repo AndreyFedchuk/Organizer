@@ -19,9 +19,9 @@ SOURCES += main.cpp\
     dialogaddtarget.cpp \
     tgstatusdelegate.cpp \
     setproxyparam.cpp \
-    dailytasks.cpp \
     dailytasksmodel.cpp \
-    dialogdailytask.cpp
+    dialogdailytask.cpp \
+    dsetting.cpp
 
 HEADERS  += mainwindow.h \
     tgtablemodel.h \
@@ -30,13 +30,22 @@ HEADERS  += mainwindow.h \
     dialogaddtarget.h \
     tgstatusdelegate.h \
     setproxyparam.h \
-    dailytasks.h \
     dailytasksmodel.h \
     task.h \
-    dialogdailytask.h
+    dialogdailytask.h \
+    dsetting.h
 
 FORMS    += mainwindow.ui \
     dialogaddtarget.ui \
     setproxyparam.ui \
-    dailytasks.ui \
-    dialogdailytask.ui
+    dialogdailytask.ui \
+    dsetting.ui
+
+RESOURCES += \
+    resources.qrc
+
+RC_ICONS = org-2.ico
+
+QMAKE_TARGET_CORPORIGHT = ahudz
+
+VERSION = 0.9.0.0

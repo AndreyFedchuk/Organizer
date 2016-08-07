@@ -42,13 +42,13 @@ QVariant DailyTasksModel::headerData(int section, Qt::Orientation orientation, i
         switch(section)
         {
         case taskColumn::ID:
-            return QVariant("№:");
+            return QVariant("№");
         case taskColumn::Task:
-            return QVariant("Task:");
+            return QVariant("Task");
         case taskColumn::Completed:
-            return QVariant("Status:");
+            return QVariant("Status");
         case taskColumn::Date:
-            return QVariant("Date:");
+            return QVariant("Date");
         default:
             return QVariant();
         }
