@@ -33,8 +33,6 @@ private:
     QSortFilterProxyModel * m_pProxyTarget;
     DailyTasksModel * m_pTaskModel;
     QSortFilterProxyModel * m_pProxyTask;
-    QString m_lastLoadPath;
-    QString m_dataTG;
     QString m_nameStyle;
     QSettings m_settings;
 
@@ -42,7 +40,6 @@ private:
     bool targetFromDialog(dialogAddTarget * pDialog);
     void changeRangeProgBar(int val);
     void syncCompletedParam();
-    void btnEnabled(bool enable);
     void readSettings();
     void writeSettings();
 
@@ -51,8 +48,6 @@ private slots:
     void slotAddButton();
     void slotEditButton();
     void slotChangeLCD(int val);
-    void slotLoad();
-    void slotSaveAs();
 
     void on_tableView_clicked(const QModelIndex &index);
     void on_m_pCheckBoxFilter_toggled(bool checked);
@@ -62,6 +57,7 @@ private slots:
     void on_m_pbtnEdit_TS_clicked();
     void on_m_pbtnDel_TS_clicked();
     void on_actionSetting_triggered();
+    void on_actionAbout_organizer_triggered();
 };
 
 #endif // MAINWINDOW_H

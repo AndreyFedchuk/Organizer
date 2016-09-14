@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/image">
         <file>bg.png</file>
+        <file>org-2.ico</file>
     </qresource>
 </RCC>

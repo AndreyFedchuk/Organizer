@@ -5,8 +5,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     m_settings("ahudz", "Organizer"),
-    m_dataTG(""),
-    m_lastLoadPath(""),
     m_nameStyle("")
 {
     //base Param TARGETS
@@ -19,7 +17,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tableView->setSortingEnabled(true);
     m_pProxyTarget->sort(static_cast<int>(Column::Priority), Qt::DescendingOrder);
     syncCompletedParam();
-    btnEnabled(false);
     ui->mainToolBar->setVisible(false);
     readSettings();
 
@@ -66,8 +63,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->calendarWidget_TS->setSelectedDate(QDate::currentDate());
 
     //SLOTs and SIGNALs
-    connect(ui->actionSave, SIGNAL(triggered(bool)), SLOT(slotSaveAs()));
-    connect(ui->actionLoad, SIGNAL(triggered(bool)), SLOT(slotLoad()));
     connect(ui->actionEditFilter, SIGNAL(triggered(bool)), SLOT(slotEditFilter()));
     connect(ui->m_pbtnAdd, SIGNAL(clicked()), SLOT(slotAddButton()));
     connect(ui->m_pbtbDel, SIGNAL(clicked()), SLOT(slotDeleteButton()));
@@ -77,21 +72,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    if(m_pTargetModel->rowCount())
-    {
-        if(!m_lastLoadPath.isEmpty())
-        {
-            m_pTargetModel->Save(m_lastLoadPath);
-            QMessageBox::information(this,
-                                     "auto save",
-                                     "Your data has been saved in file: \n" + m_lastLoadPath);
-        }
-        else if(!m_dataTG.isEmpty())
-            m_pTargetModel->Save(m_dataTG);
-    }
-
     writeSettings();
-
     delete m_pTargetModel;
     delete m_pProxyTarget;
     delete m_pTaskModel;
@@ -137,28 +118,14 @@ void MainWindow::syncCompletedParam()
     ui->m_pprogBarMain->setValue(ui->m_plcdReady->value());
 }
 
-void MainWindow::btnEnabled(bool enable)
-{
-    ui->m_pbtbDel->setEnabled(enable);
-    ui->m_pbtnEdit->setEnabled(enable);
-    ui->actionSave->setEnabled(enable);
-}
-
 void MainWindow::readSettings()
 {
     m_settings.beginGroup("/Settings");
-    m_dataTG = m_settings.value("/LoadTG").toString();
     int curInd = m_settings.value("/TabIndex").toInt();
     QPoint Pos = m_settings.value("/Pos").toPoint();
     m_nameStyle = m_settings.value("/nameStyle").toString();
     m_settings.endGroup();
 
-    if(!m_dataTG.isEmpty())
-    {
-        m_pTargetModel->Load(m_dataTG);
-        syncCompletedParam();
-        btnEnabled(true);
-    }
     ui->tabWidget->setCurrentIndex(curInd);
     this->move(Pos);
     if(!m_nameStyle.isEmpty())
@@ -168,7 +135,6 @@ void MainWindow::readSettings()
 void MainWindow::writeSettings()
 {
     m_settings.beginGroup("/Settings");
-    m_settings.setValue("/LoadTG", m_dataTG);
     m_settings.setValue("/TabIndex", ui->tabWidget->currentIndex());
     m_settings.setValue("/Pos", pos());
     m_settings.setValue("/nameStyle", m_nameStyle);
@@ -206,8 +172,6 @@ void MainWindow::slotDeleteButton()
 
             //to ProgressBar
             changeRangeProgBar(-1);
-            if(!ui->m_pprogBarMain->maximum())
-                btnEnabled(false);
 
             m_pTargetModel->DelRow(index);
         }
@@ -220,8 +184,7 @@ void MainWindow::slotDeleteButton()
 void MainWindow::slotAddButton()
 {
     dialogAddTarget * pAddDialog = new dialogAddTarget;
-    if(targetFromDialog(pAddDialog))
-        btnEnabled(true);
+    targetFromDialog(pAddDialog);
     delete pAddDialog;
     ui->tableView->resizeRowsToContents();
 }
@@ -267,27 +230,6 @@ void MainWindow::slotChangeLCD(int val)
 {
     ui->m_plcdReady->display(ui->m_plcdReady->value() + val);
     ui->m_pprogBarMain->setValue(ui->m_pprogBarMain->value() + val);
-}
-
-void MainWindow::slotLoad()
-{
-    m_lastLoadPath = QFileDialog::getOpenFileName(this, "Load data", "*.tg");
-    if(!m_lastLoadPath.isEmpty())
-    {
-        m_pTargetModel->Load(m_lastLoadPath);
-        syncCompletedParam();
-        btnEnabled(true);
-    }
-}
-
-void MainWindow::slotSaveAs()
-{
-    QString path = QFileDialog::getSaveFileName(this, "Save data", "tmp", "*.tg");
-    if(!path.isEmpty())
-    {
-        m_lastLoadPath = path;
-        m_pTargetModel->Save(m_lastLoadPath);
-    }
 }
 
 void MainWindow::on_tableView_clicked(const QModelIndex &index)
@@ -431,13 +373,22 @@ void MainWindow::on_m_pbtnDel_TS_clicked()
 
 void MainWindow::on_actionSetting_triggered()
 {
-    dSetting *pSetting = new dSetting(m_dataTG, m_nameStyle, this);
+    dSetting *pSetting = new dSetting(m_nameStyle, this);
     if(pSetting->exec() == QDialog::Accepted)
     {
-        m_dataTG = pSetting->pathAutoControl();
         m_nameStyle = pSetting->nameStyle();
         if(!m_nameStyle.isEmpty())
             QApplication::setStyle(m_nameStyle);
     }
     delete pSetting;
+}
+
+void MainWindow::on_actionAbout_organizer_triggered()
+{
+    QString msg1("version: beta 0.9.1.0\n\n"), msg2(" Hudz A. P., 2016");
+    QChar cp(169);
+    QString msg = msg1 + cp + msg2;
+    QMessageBox::about(this,
+                      "Organizer",
+                      msg);
 }

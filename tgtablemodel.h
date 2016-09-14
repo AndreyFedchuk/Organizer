@@ -14,7 +14,7 @@ class tgTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    tgTableModel(QObject * parent = nullptr);
+    tgTableModel(QObject * parent = nullptr, const QString path = "data.tg");
     ~tgTableModel();
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
@@ -27,10 +27,9 @@ public:
     target EditRow(const QModelIndex & index);
     void DelRow(const QModelIndex & index);
     int completedCount();
-    void Load(QString &path);
-    void Save(QString &path);
 
 private:
+    QString m_path;
     QList<target> * m_ptargetList;
     QVariant getData(int row, int column) const;
 

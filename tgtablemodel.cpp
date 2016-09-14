@@ -1,12 +1,28 @@
 #include "tgtablemodel.h"
 
-tgTableModel::tgTableModel(QObject *parent): QAbstractTableModel(parent)
+tgTableModel::tgTableModel(QObject *parent, const QString path): QAbstractTableModel(parent), m_path(path)
 {
     m_ptargetList = new QList<target>;
+    QFile file(m_path);
+    if(file.open(QIODevice::ReadOnly))
+    {
+        QDataStream in(&file);
+        in.setVersion(QDataStream::Qt_5_7);
+        in >> *m_ptargetList;
+        file.close();
+    }
 }
 
 tgTableModel::~tgTableModel()
 {
+    QFile file(m_path);
+    if(file.open(QIODevice::WriteOnly))
+    {
+        QDataStream out(&file);
+        out.setVersion(QDataStream::Qt_5_7);
+        out << *m_ptargetList;
+        file.close();
+    }
     delete m_ptargetList;
 }
 
@@ -19,7 +35,7 @@ int tgTableModel::rowCount(const QModelIndex &parent) const
 int tgTableModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return (int)Column::columnCount;
+    return static_cast<int>(Column::columnCount);
 }
 
 QVariant tgTableModel::data(const QModelIndex &index, int role) const
@@ -102,33 +118,6 @@ int tgTableModel::completedCount()
     return count;
 }
 
-void tgTableModel::Load(QString &path)
-{
-    QFile file(path);
-    if(file.open(QIODevice::ReadOnly))
-    {
-        beginResetModel();
-        m_ptargetList->clear();
-
-        QDataStream in(&file);
-        in.setVersion(QDataStream::Qt_5_7);
-        in >> *m_ptargetList;
-        file.close();
-        endResetModel();
-    }
-}
-
-void tgTableModel::Save(QString &path)
-{
-    QFile file(path);
-    if(file.open(QIODevice::WriteOnly))
-    {
-        QDataStream out(&file);
-        out.setVersion(QDataStream::Qt_5_7);
-        out << *m_ptargetList;
-        file.close();
-    }
-}
 
 target tgTableModel::EditRow(const QModelIndex &index)
 {
