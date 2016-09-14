@@ -214,7 +214,7 @@ void MainWindow::slotDeleteButton()
         delete pMes;
     }
     else
-        QMessageBox::information(this, "Information", "Select row to delete");
+        QMessageBox::information(this, "Information", "Select target to delete");
 }
 
 void MainWindow::slotAddButton()

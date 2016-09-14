@@ -10,6 +10,7 @@ QWidget *tgPriorityDelegate::createEditor(QWidget *parent,
     Q_UNUSED(index)
     QSlider* editor = new QSlider(parent);
     editor->setOrientation(Qt::Horizontal);
+    editor->setMaximum(100);
     editor->setAutoFillBackground(true);
 
     return editor;
