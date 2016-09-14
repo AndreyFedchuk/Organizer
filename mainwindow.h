@@ -36,8 +36,6 @@ private:
     QString m_nameStyle;
     QSettings m_settings;
 
-
-    bool targetFromDialog(dialogAddTarget * pDialog);
     void changeRangeProgBar(int val);
     void syncCompletedParam();
     void readSettings();
@@ -58,6 +56,7 @@ private slots:
     void on_m_pbtnDel_TS_clicked();
     void on_actionSetting_triggered();
     void on_actionAbout_organizer_triggered();
+    void on_tabWidget_currentChanged(int index);
 };
 
 #endif // MAINWINDOW_H

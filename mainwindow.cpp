@@ -52,7 +52,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QHeaderView * header = ui->tableView->horizontalHeader();
     header->setSectionResizeMode(QHeaderView::ResizeToContents);
     header->setSectionResizeMode(static_cast<int>(Column::Name), QHeaderView::Stretch);
-    ui->tableView->resizeRowsToContents();
+    header = ui->tableView->verticalHeader();
+    header->setSectionResizeMode(QHeaderView::ResizeToContents);
 
     //Setting to view TASKS
     ui->tableView_TS->setSelectionBehavior(QAbstractItemView::SelectItems);
@@ -60,6 +61,7 @@ MainWindow::MainWindow(QWidget *parent) :
     header->setSectionResizeMode(QHeaderView::ResizeToContents);
     header->setSectionResizeMode(static_cast<int>(taskColumn::Task), QHeaderView::Stretch);
     ui->tableView_TS->verticalHeader()->setHidden(true);
+    ui->tableView_TS->resizeRowsToContents();
     ui->calendarWidget_TS->setSelectedDate(QDate::currentDate());
 
     //SLOTs and SIGNALs
@@ -78,32 +80,6 @@ MainWindow::~MainWindow()
     delete m_pTaskModel;
     delete m_pProxyTask;
     delete ui;
-}
-
-bool MainWindow::targetFromDialog(dialogAddTarget *pDialog)
-{
-    if(pDialog->exec() == QDialog::Accepted)
-    {
-        target tg;
-        tg.name = pDialog->Target();
-        tg.description = pDialog->Description();
-        tg.priority = pDialog->Priority();
-        tg.deadline = pDialog->Deadline();
-        tg.ready = pDialog->getStatus();
-
-        m_pTargetModel->AddRow(tg);
-
-        //for LCD
-        int plus(1);
-        if(tg.ready == Status::Value::completed)
-            slotChangeLCD(plus);
-
-        //for ProgressBar
-        changeRangeProgBar(1);
-        return true;
-    }
-    else
-        return false;
 }
 
 void MainWindow::changeRangeProgBar(int val)
@@ -184,7 +160,25 @@ void MainWindow::slotDeleteButton()
 void MainWindow::slotAddButton()
 {
     dialogAddTarget * pAddDialog = new dialogAddTarget;
-    targetFromDialog(pAddDialog);
+    if(pAddDialog->exec() == QDialog::Accepted)
+    {
+        target tg;
+        tg.name = pAddDialog->Target();
+        tg.description = pAddDialog->Description();
+        tg.priority = pAddDialog->Priority();
+        tg.deadline = pAddDialog->Deadline();
+        tg.ready = pAddDialog->getStatus();
+
+        m_pTargetModel->AddRow(tg);
+
+        //for LCD
+        const int plus(1);
+        if(tg.ready == Status::Value::completed)
+            slotChangeLCD(plus);
+
+        //for ProgressBar
+        changeRangeProgBar(plus);
+    }
     delete pAddDialog;
     ui->tableView->resizeRowsToContents();
 }
@@ -198,25 +192,36 @@ void MainWindow::slotEditButton()
         index = ui->tableView->selectionModel()->currentIndex();
     if(index.isValid())
     {        
-        target tg = m_pTargetModel->EditRow(index);
+        target tgToEdit = m_pTargetModel->EditRow(index);
         dialogAddTarget * pDialog = new dialogAddTarget;
         pDialog->setWindowTitle("Edit target");
-        pDialog->setTarget(tg.name);
-        pDialog->setDescription(tg.description);
-        pDialog->setDeadline(tg.deadline);
-        pDialog->setPriority(tg.priority);
-        pDialog->setStatus(tg.ready);
+        pDialog->setTarget(tgToEdit.name);
+        pDialog->setDescription(tgToEdit.description);
+        pDialog->setDeadline(tgToEdit.deadline);
+        pDialog->setPriority(tgToEdit.priority);
+        pDialog->setStatus(tgToEdit.ready);
 
         //for LCD
-        int minus(-1);
-        Status::Value val = tg.ready;
+        const int minus(-1);
+        Status::Value val = tgToEdit.ready;
 
-        if(targetFromDialog(pDialog))
+        if(pDialog->exec() == QDialog::Accepted)
         {
+            target tgFixed;
+            tgFixed.name = pDialog->Target();
+            tgFixed.description = pDialog->Description();
+            tgFixed.priority = pDialog->Priority();
+            tgFixed.deadline = pDialog->Deadline();
+            tgFixed.ready = pDialog->getStatus();
+
+            m_pTargetModel->AddRow(tgFixed);
             m_pTargetModel->DelRow(index);
             ui->tableView->resizeRowsToContents();
 
             //for LCD
+            const int plus(1);
+            if(tgFixed.ready == Status::Value::completed)
+                slotChangeLCD(plus);
             if(val == Status::Value::completed)
                 slotChangeLCD(minus);
         }
@@ -385,10 +390,19 @@ void MainWindow::on_actionSetting_triggered()
 
 void MainWindow::on_actionAbout_organizer_triggered()
 {
-    QString msg1("version: beta 0.9.1.0\n\n"), msg2(" Hudz A. P., 2016");
+    QString msg1("version: beta 0.9.1.1\n\n"), msg2(" Hudz A. P., 2016");
     QChar cp(169);
     QString msg = msg1 + cp + msg2;
     QMessageBox::about(this,
                       "Organizer",
                       msg);
+}
+
+void MainWindow::on_tabWidget_currentChanged(int index) // to fix the bug with first Tab
+{
+    if(index)
+        ui->tableView_TS->resizeRowsToContents();
+    else
+        ui->tableView->resizeRowsToContents();
+
 }
