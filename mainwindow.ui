@@ -118,13 +118,25 @@
             </property>
            </widget>
           </item>
-          <item>
+          <item alignment="Qt::AlignTop">
            <widget class="QTableView" name="tableView">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>438</width>
+              <height>270</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>438</width>
+              <height>270</height>
+             </size>
             </property>
             <property name="alternatingRowColors">
              <bool>false</bool>
@@ -550,7 +562,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QTableView" name="tableView_TS"/>
+           <widget class="QTableView" name="tableView_TS">
+            <attribute name="verticalHeaderMinimumSectionSize">
+             <number>30</number>
+            </attribute>
+           </widget>
           </item>
          </layout>
         </item>
@@ -682,8 +698,17 @@
     <property name="title">
      <string>Edit</string>
     </property>
+    <widget class="QMenu" name="menuLanguage">
+     <property name="title">
+      <string>Language</string>
+     </property>
+     <addaction name="actionEnglish"/>
+     <addaction name="actionRussian"/>
+     <addaction name="actionUkrainian"/>
+    </widget>
     <addaction name="actionEditFilter"/>
     <addaction name="actionSetting"/>
+    <addaction name="menuLanguage"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -744,6 +769,30 @@
   <action name="actionSetting">
    <property name="text">
     <string>Setting...</string>
+   </property>
+  </action>
+  <action name="actionEnglish">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>English</string>
+   </property>
+  </action>
+  <action name="actionRussian">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Russian</string>
+   </property>
+  </action>
+  <action name="actionUkrainian">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Ukrainian</string>
    </property>
   </action>
  </widget>

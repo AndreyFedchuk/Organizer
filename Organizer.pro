@@ -4,6 +4,13 @@
 #
 #-------------------------------------------------
 
+#// ///////////////////////////////////////////////////
+#// Copyright © 2016 Andriy Hudz. All rights reserved.
+#// email: andrey.hudz.90@gmail.com
+#// https://www.facebook.com/AndreyHudz90
+#// ///////////////////////////////////////////////////
+
+
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -48,4 +55,11 @@ RC_ICONS = org-2.ico
 
 QMAKE_TARGET_CORPORIGHT = ahudz
 
-VERSION = 0.9.1.2
+VERSION = 0.9.2.0
+
+TRANSLATIONS += Organizer_ru.ts \
+                Organizer_ua.ts
+
+DISTFILES += \
+    Organizer_ru.ts \
+    Organizer_ua.ts

@@ -1,7 +1,14 @@
+// ///////////////////////////////////////////////////
+// Copyright © 2016 Andriy Hudz. All rights reserved.
+// email: andrey.hudz.90@gmail.com
+// https://www.facebook.com/AndreyHudz90
+// ///////////////////////////////////////////////////
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTranslator>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QSortFilterProxyModel>
@@ -35,11 +42,13 @@ private:
     QSortFilterProxyModel * m_pProxyTask;
     QString m_nameStyle;
     QSettings m_settings;
+    QTranslator * m_pTranslator;
 
     void changeRangeProgBar(int val);
     void syncCompletedParam();
     void readSettings();
     void writeSettings();
+    void changeTranslator(QString postfix);
 
 private slots:
     void slotDeleteButton();
@@ -57,6 +66,9 @@ private slots:
     void on_actionSetting_triggered();
     void on_actionAbout_organizer_triggered();
     void on_tabWidget_currentChanged(int index);
+    void on_actionEnglish_triggered();
+    void on_actionRussian_triggered();
+    void on_actionUkrainian_triggered();
 };
 
 #endif // MAINWINDOW_H

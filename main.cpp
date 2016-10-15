@@ -1,6 +1,11 @@
+// ///////////////////////////////////////////////////
+// Copyright © 2016 Andriy Hudz. All rights reserved.
+// email: andrey.hudz.90@gmail.com
+// https://www.facebook.com/AndreyHudz90
+// ///////////////////////////////////////////////////
+
 #include "mainwindow.h"
 #include <QApplication>
-#include <QDebug>
 
 int main(int argc, char *argv[])
 {

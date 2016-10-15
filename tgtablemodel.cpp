@@ -1,3 +1,9 @@
+// ///////////////////////////////////////////////////
+// Copyright © 2016 Andriy Hudz. All rights reserved.
+// email: andrey.hudz.90@gmail.com
+// https://www.facebook.com/AndreyHudz90
+// ///////////////////////////////////////////////////
+
 #include "tgtablemodel.h"
 
 tgTableModel::tgTableModel(QObject *parent, const QString path): QAbstractTableModel(parent), m_path(path)
@@ -181,15 +187,15 @@ QVariant tgTableModel::headerData(int section, Qt::Orientation orientation, int 
         switch(section)
         {
         case Column::Name:
-            return QVariant("Target");
+            return QVariant(tr("Target"));
         case Column::Description:
-            return QVariant("Descriptions");
+            return QVariant(tr("Descriptions"));
         case Column::Priority:
-            return QVariant("Priority");
+            return QVariant(tr("Priority"));
         case Column::Deadline:
-            return QVariant("Deadline");
+            return QVariant(tr("Deadline"));
         case Column::Ready:
-            return QVariant("Status");
+            return QVariant(tr("Status"));
         default:
             return QVariant();
         }

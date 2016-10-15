@@ -1,3 +1,9 @@
+// ///////////////////////////////////////////////////
+// Copyright © 2016 Andriy Hudz. All rights reserved.
+// email: andrey.hudz.90@gmail.com
+// https://www.facebook.com/AndreyHudz90
+// ///////////////////////////////////////////////////
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -70,6 +76,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_pbtbDel, SIGNAL(clicked()), SLOT(slotDeleteButton()));
     connect(ui->m_pbtnEdit, SIGNAL(clicked()), SLOT(slotEditButton()));
     connect(m_pTargetModel, SIGNAL(completedCountChanged(int)), SLOT(slotChangeLCD(int)));
+    connect(ui->tableView_TS, SIGNAL(doubleClicked(QModelIndex)), SLOT(on_m_pbtnEdit_TS_clicked()));
+    connect(ui->tableView, SIGNAL(doubleClicked(QModelIndex)), SLOT(slotEditButton()));
 }
 
 MainWindow::~MainWindow()
@@ -100,12 +108,21 @@ void MainWindow::readSettings()
     int curInd = m_settings.value("/TabIndex").toInt();
     QPoint Pos = m_settings.value("/Pos").toPoint();
     m_nameStyle = m_settings.value("/nameStyle").toString();
+    QString postfix = m_settings.value("/Language").toString();
     m_settings.endGroup();
 
     ui->tabWidget->setCurrentIndex(curInd);
     this->move(Pos);
     if(!m_nameStyle.isEmpty())
         QApplication::setStyle(m_nameStyle);
+
+    if(postfix == "en")
+        ui->actionEnglish->setChecked(true);
+    else if(postfix == "ru")
+        ui->actionRussian->setChecked(true);
+    else
+        ui->actionUkrainian->setChecked(true);
+    changeTranslator(postfix);
 }
 
 void MainWindow::writeSettings()
@@ -116,6 +133,17 @@ void MainWindow::writeSettings()
     m_settings.setValue("/nameStyle", m_nameStyle);
     m_settings.endGroup();
 
+}
+
+void MainWindow::changeTranslator(QString postfix)
+{
+    QApplication::removeTranslator(m_pTranslator);
+    m_pTranslator = new QTranslator(this);
+    m_pTranslator->load(":/language/Organizer_" + postfix + ".qm");
+    QApplication::installTranslator(m_pTranslator);
+    ui->retranslateUi(this);
+
+    m_settings.setValue("/Settings/Language", postfix);
 }
 
 void MainWindow::slotDeleteButton()
@@ -131,8 +159,8 @@ void MainWindow::slotDeleteButton()
         QVariant var = m_pTargetModel->data(index, Qt::DisplayRole);
         target targetName;
         targetName.name = var.toString();
-        QMessageBox * pMes =  new QMessageBox(QMessageBox::Warning, "Delete the target",
-                                             "Want to remove the target: \"<b>" + targetName.name + "</b>\" ?",
+        QMessageBox * pMes =  new QMessageBox(QMessageBox::Warning, tr("Delete the target"),
+                                             tr("Want to remove the target: \"<b>") + targetName.name + "</b>\" ?",
                                              QMessageBox::Yes | QMessageBox::No,
                                              this);
 
@@ -154,7 +182,7 @@ void MainWindow::slotDeleteButton()
         delete pMes;
     }
     else
-        QMessageBox::information(this, "Information", "Select target to delete");
+        QMessageBox::information(this, tr("Information"), tr("Select target to delete"));
 }
 
 void MainWindow::slotAddButton()
@@ -194,7 +222,7 @@ void MainWindow::slotEditButton()
     {        
         target tgToEdit = m_pTargetModel->EditRow(index);
         dialogAddTarget * pDialog = new dialogAddTarget;
-        pDialog->setWindowTitle("Edit target");
+        pDialog->setWindowTitle(tr("Edit target"));
         pDialog->setTarget(tgToEdit.name);
         pDialog->setDescription(tgToEdit.description);
         pDialog->setDeadline(tgToEdit.deadline);
@@ -228,7 +256,7 @@ void MainWindow::slotEditButton()
         delete pDialog;
     }
     else
-        QMessageBox::information(this, "Information", "Select row to edite");
+        QMessageBox::information(this, tr("Information"), tr("Select row to edite"));
 }
 
 void MainWindow::slotChangeLCD(int val)
@@ -335,7 +363,7 @@ void MainWindow::on_m_pbtnEdit_TS_clicked()
         task ts = m_pTaskModel->editTask(index);
 
         dialogDailyTask * pDialog = new dialogDailyTask(this);
-        pDialog->setWindowTitle("Edit task");
+        pDialog->setWindowTitle(tr("Edit task"));
         pDialog->setID(ts.ID);
         pDialog->setDate(ts.date);
         pDialog->setTask(ts.taskName);
@@ -353,7 +381,7 @@ void MainWindow::on_m_pbtnEdit_TS_clicked()
         delete pDialog;
     }
     else
-        QMessageBox::information(this, "Information", "Select row to edite");
+        QMessageBox::information(this, tr("Information"), tr("Select row to edite"));
 }
 
 void MainWindow::on_m_pbtnDel_TS_clicked()
@@ -364,8 +392,8 @@ void MainWindow::on_m_pbtnDel_TS_clicked()
         index = index.sibling(index.row(), static_cast<int>(taskColumn::Task));
         QVariant var = m_pTaskModel->data(index);
         QString str = var.toString();
-        QMessageBox * msg = new QMessageBox(QMessageBox::Warning, "Delete the task",
-                                            "Want to remove the target: \"<b>" + str + "</b>\" ?",
+        QMessageBox * msg = new QMessageBox(QMessageBox::Warning, tr("Delete the task"),
+                                            tr("Want to remove the target: \"<b>") + str + "</b>\" ?",
                                             QMessageBox::Yes | QMessageBox::No,
                                             this);
         if(msg->exec() == QMessageBox::Yes)
@@ -374,7 +402,7 @@ void MainWindow::on_m_pbtnDel_TS_clicked()
         delete msg;
     }
     else
-        QMessageBox::information(this, "Information", "Select row to delete");
+        QMessageBox::information(this, tr("Information"), tr("Select row to delete"));
 }
 
 void MainWindow::on_actionSetting_triggered()
@@ -391,7 +419,7 @@ void MainWindow::on_actionSetting_triggered()
 
 void MainWindow::on_actionAbout_organizer_triggered()
 {
-    QString msg1("version: beta 0.9.1.2\n\n"), msg2(" Hudz A. P., 2016");
+    QString msg1(tr("version: beta 0.9.2.0\n\n")), msg2(" Hudz A. P., 2016");
     QChar cp(169);
     QString msg = msg1 + cp + msg2;
     QMessageBox::about(this,
@@ -406,4 +434,43 @@ void MainWindow::on_tabWidget_currentChanged(int index) // to fix the bug with f
     else
         ui->tableView->resizeRowsToContents();
 
+}
+
+void MainWindow::on_actionEnglish_triggered()
+{
+    changeTranslator("en");
+    ui->actionEnglish->setChecked(true);
+    ui->actionRussian->setChecked(false);
+    ui->actionUkrainian->setChecked(false);
+
+    if(ui->tabWidget->currentIndex())
+        ui->tableView_TS->resizeRowsToContents();
+    else
+        ui->tableView->resizeRowsToContents();
+}
+
+void MainWindow::on_actionRussian_triggered()
+{
+    changeTranslator("ru");
+    ui->actionEnglish->setChecked(false);
+    ui->actionRussian->setChecked(true);
+    ui->actionUkrainian->setChecked(false);
+
+    if(ui->tabWidget->currentIndex())
+        ui->tableView_TS->resizeRowsToContents();
+    else
+        ui->tableView->resizeRowsToContents();
+}
+
+void MainWindow::on_actionUkrainian_triggered()
+{
+    changeTranslator("ua");
+    ui->actionEnglish->setChecked(false);
+    ui->actionRussian->setChecked(false);
+    ui->actionUkrainian->setChecked(true);
+
+    if(ui->tabWidget->currentIndex())
+        ui->tableView_TS->resizeRowsToContents();
+    else
+        ui->tableView->resizeRowsToContents();
 }

@@ -1,3 +1,9 @@
+// ///////////////////////////////////////////////////
+// Copyright © 2016 Andriy Hudz. All rights reserved.
+// email: andrey.hudz.90@gmail.com
+// https://www.facebook.com/AndreyHudz90
+// ///////////////////////////////////////////////////
+
 #ifndef TGTABLEMODEL_H
 #define TGTABLEMODEL_H
 

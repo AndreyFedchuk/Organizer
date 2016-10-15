@@ -1,3 +1,9 @@
+// ///////////////////////////////////////////////////
+// Copyright © 2016 Andriy Hudz. All rights reserved.
+// email: andrey.hudz.90@gmail.com
+// https://www.facebook.com/AndreyHudz90
+// ///////////////////////////////////////////////////
+
 #include "dailytasksmodel.h"
 
 DailyTasksModel::DailyTasksModel(QObject *parent, const QString path)
@@ -42,13 +48,13 @@ QVariant DailyTasksModel::headerData(int section, Qt::Orientation orientation, i
         switch(section)
         {
         case taskColumn::ID:
-            return QVariant("№");
+            return QVariant(tr("№"));
         case taskColumn::Task:
-            return QVariant("Task");
+            return QVariant(tr("Task"));
         case taskColumn::Completed:
-            return QVariant("Status");
+            return QVariant(tr("Status"));
         case taskColumn::Date:
-            return QVariant("Date");
+            return QVariant(tr("Date"));
         default:
             return QVariant();
         }
@@ -84,9 +90,9 @@ QVariant DailyTasksModel::data(const QModelIndex &index, int role) const
             return m_pList->at(index.row()).taskName;
         case taskColumn::Completed:
             if(m_pList->at(index.row()).completed)
-                return QVariant("ready");
+                return QVariant(tr("ready"));
             else
-                return QVariant("NOT ready");
+                return QVariant(tr("NOT ready"));
         case taskColumn::Date:
             return m_pList->at(index.row()).date;
         default:
