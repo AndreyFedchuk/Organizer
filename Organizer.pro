@@ -48,4 +48,4 @@ RC_ICONS = org-2.ico
 
 QMAKE_TARGET_CORPORIGHT = ahudz
 
-VERSION = 0.9.1.1
+VERSION = 0.9.1.2

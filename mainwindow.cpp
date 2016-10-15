@@ -313,6 +313,7 @@ void MainWindow::on_calendarWidget_TS_clicked(const QDate &date)
 void MainWindow::on_m_pbtnAdd_TS_clicked()
 {
     dialogDailyTask * pDialog = new dialogDailyTask(this);
+    pDialog->setDate(ui->calendarWidget_TS->selectedDate());
     if(pDialog->exec() == QDialog::Accepted)
     {
         task tmp;
@@ -390,7 +391,7 @@ void MainWindow::on_actionSetting_triggered()
 
 void MainWindow::on_actionAbout_organizer_triggered()
 {
-    QString msg1("version: beta 0.9.1.1\n\n"), msg2(" Hudz A. P., 2016");
+    QString msg1("version: beta 0.9.1.2\n\n"), msg2(" Hudz A. P., 2016");
     QChar cp(169);
     QString msg = msg1 + cp + msg2;
     QMessageBox::about(this,
